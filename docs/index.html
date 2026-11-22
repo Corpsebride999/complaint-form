@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Product Complaint Form</title>
+<style>
+:root{--pri:#1f4e79;--pri-l:#e8eef5;--ink:#1d2430;--mut:#667085;--line:#d9dee7;--bg:#f4f6f9;--auto:#fff6d6}
+*{box-sizing:border-box}
+body{margin:0;font:15px/1.45 "Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--ink);background:var(--bg)}
+.wrap{max-width:980px;margin:0 auto;padding:16px 14px 110px}
+header.top{background:#fff;border-radius:14px;padding:16px 18px;display:flex;gap:16px;align-items:center;flex-wrap:wrap;border-top:6px solid var(--pri);box-shadow:0 1px 3px rgba(0,0,0,.06)}
+header.top img{max-height:56px;max-width:180px;object-fit:contain}
+.brand{flex:1;min-width:200px}
+.brand h1{margin:0;font-size:22px;color:var(--pri)}
+.brand .sub{color:var(--mut);font-size:13px}
+.meta{text-align:right;font-size:13px;color:var(--mut)}
+.meta b{color:var(--ink);font-size:15px}
+.langs button{border:1px solid var(--line);background:#fff;border-radius:6px;padding:3px 8px;margin-left:3px;cursor:pointer;font-weight:600}
+.langs button.on{background:var(--pri);color:#fff;border-color:var(--pri)}
+section.card{background:#fff;border-radius:14px;padding:16px 18px;margin-top:14px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+section.card>h2{margin:0 0 12px;font-size:17px;display:flex;align-items:center;gap:8px}
+section.card>h2 .n{background:var(--pri);color:#fff;border-radius:50%;width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center;font-size:14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px 14px}
+label.f{display:flex;flex-direction:column;font-size:12.5px;color:var(--mut);font-weight:600;gap:4px}
+label.f.req>span::after{content:" *";color:#d92d20}
+input,select,textarea{font:inherit;color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:8px 10px;background:#fff;width:100%}
+input:disabled,select:disabled{background:#f2f4f7;color:#344054}
+textarea{min-height:110px;resize:vertical}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--pri-l);border-color:var(--pri)}
+.auto{background:var(--auto)!important}
+.err{border-color:#d92d20!important;background:#fff5f5}
+.btn{border:1px solid var(--line);background:#fff;border-radius:8px;padding:8px 12px;cursor:pointer;font:inherit;font-weight:600;color:var(--ink);display:inline-flex;align-items:center;gap:4px}
+.btn.pri{background:var(--pri);border-color:var(--pri);color:#fff}
+.btn.sm{padding:5px 9px;font-size:13px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.note{font-size:12.5px;color:var(--mut);font-weight:400}
+.locked{display:flex;justify-content:space-between;align-items:center;background:var(--pri-l);border-radius:8px;padding:8px 12px;margin-bottom:10px;font-size:13px;gap:8px;flex-wrap:wrap}
+.item{border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:12px}
+.item h3{margin:0 0 10px;font-size:14.5px;display:flex;justify-content:space-between;align-items:center}
+.ocrbox{background:#f8fafc;border:1px dashed var(--line);border-radius:10px;padding:10px;margin-top:10px}
+.ocrbox details{font-size:12px;color:var(--mut);margin-top:6px}
+.ocrbox pre{white-space:pre-wrap;max-height:140px;overflow:auto;background:#fff;padding:6px;border-radius:6px}
+.sugg{margin:10px 0;padding:10px;border-radius:10px;background:#f0f9ff;border:1px solid #b9e6fe;font-size:13.5px;display:none}
+.chip{display:inline-block;background:#fff;border:1px solid #7cd4fd;border-radius:999px;padding:2px 9px;margin:3px 4px 0 0;font-size:12.5px}
+fieldset.types{border:1px solid var(--line);border-radius:10px;margin:0 0 10px;padding:8px 12px}
+fieldset.types legend{font-weight:700;font-size:13.5px;color:var(--pri);padding:0 6px}
+.tgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:4px 12px}
+.tgrid label{display:flex;gap:8px;align-items:flex-start;font-size:13.5px;padding:3px 4px;border-radius:6px;cursor:pointer}
+.tgrid input{width:auto;margin-top:3px}
+.tgrid label.isauto{background:var(--auto)}
+.tag{font-size:10.5px;background:#fec84b;color:#5a3d00;border-radius:4px;padding:0 5px;margin-left:4px;font-weight:700}
+.checks{display:flex;flex-wrap:wrap;gap:6px 18px}
+.checks label{display:flex;gap:6px;align-items:center;font-size:14px}
+.checks input{width:auto}
+.photos{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-top:10px}
+.ph{position:relative;border-radius:10px;overflow:hidden;border:1px solid var(--line);background:#f2f4f7;aspect-ratio:1}
+.ph img{width:100%;height:100%;object-fit:cover}
+.ph button{position:absolute;top:4px;right:4px;border:0;background:rgba(0,0,0,.6);color:#fff;border-radius:50%;width:24px;height:24px;cursor:pointer}
+.ph input{position:absolute;bottom:0;left:0;right:0;border:0;border-radius:0;font-size:11.5px;padding:4px 6px;background:rgba(255,255,255,.9)}
+.bar{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid var(--line);padding:10px 14px;box-shadow:0 -2px 10px rgba(0,0,0,.06);z-index:20}
+.bar .row{max-width:980px;margin:0 auto;justify-content:flex-end}
+.bar .status{margin-right:auto;font-size:12.5px;color:var(--mut)}
+.modal{position:fixed;inset:0;background:rgba(16,24,40,.55);display:none;align-items:center;justify-content:center;z-index:50;padding:14px}
+.modal.on{display:flex}
+.modal .box{background:#fff;border-radius:14px;max-width:620px;width:100%;max-height:92vh;overflow:auto;padding:18px}
+.modal h3{margin:0 0 10px}
+.toast{position:fixed;bottom:84px;left:50%;transform:translateX(-50%);background:#101828;color:#fff;padding:9px 16px;border-radius:8px;font-size:14px;display:none;z-index:60;max-width:90%}
+#report{position:absolute;left:-10000px;top:0;width:794px;background:#fff}
+#report.rendering{position:fixed;left:0;top:0;z-index:9998}
+.pdfcover{position:fixed;inset:0;background:#fff;z-index:9999;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:600;color:var(--pri)}
+.rp{font:12px/1.4 Arial,sans-serif;color:#111;padding:6px 10px}
+.rp .rh{display:flex;justify-content:space-between;align-items:center;border-bottom:3px solid var(--pri);padding-bottom:8px;margin-bottom:10px}
+.rp .rh img{max-height:46px;max-width:170px}
+.rp h1{font-size:19px;margin:0;color:var(--pri)}
+.rp h2{font-size:13px;background:var(--pri);color:#fff;padding:4px 8px;margin:12px 0 6px;border-radius:3px}
+.rp table{width:100%;border-collapse:collapse}
+.rp td,.rp th{border:1px solid #cfd5df;padding:4px 6px;vertical-align:top;text-align:left}
+.rp th{background:#eef2f7;width:26%;font-weight:700}
+.rp .prow{display:flex;gap:8px;margin-bottom:8px}
+.rp .pcell{flex:1;border:1px solid #cfd5df;padding:4px;text-align:center;font-size:10.5px}
+.rp .pcell img{width:100%;max-height:280px;object-fit:contain;display:block;margin:0 auto 3px}
+.rp .pg div{border:1px solid #cfd5df;padding:4px;text-align:center;font-size:10.5px}
+.rp .pg img{width:100%;max-height:300px;object-fit:contain}
+.avoid{page-break-inside:avoid;break-inside:avoid}
+.rp .sec{padding-top:2px}
+.pk{margin-top:12px;border:1px solid var(--line);border-radius:10px;padding:10px;background:#fcfcfd}
+.pkh{font-weight:700;font-size:13.5px;margin-bottom:6px}
+.pkt{width:100%;border-collapse:collapse}
+.pkt th{font-size:12px;color:var(--mut);text-align:left;padding:3px 4px;font-weight:600}
+.pkt td{padding:3px 4px}
+.pkt input{padding:6px 8px}
+.pkt .del{border:0;background:none;cursor:pointer;font-size:16px;color:#b42318}
+.pkf{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:6px;font-size:13px}
+.pkf label{display:flex;gap:6px;align-items:center}
+.pkf input{width:auto}
+.pktotal{margin-left:auto;font-weight:700}
+.trnote{font-size:12px;color:#026aa2;margin-top:4px;min-height:0;font-weight:400}
+.trnote a{color:#026aa2;text-decoration:underline;cursor:pointer;margin-left:6px}
+.trnote .orig{display:block;margin-top:4px;padding:6px 8px;background:#f0f9ff;border-radius:6px;color:#344054;white-space:pre-wrap}
+.trsw{display:inline-flex;align-items:center;gap:5px;font-size:12px;margin-top:6px;cursor:pointer}
+.trsw input{width:auto}
+@media (max-width:600px){.meta{text-align:left}.brand h1{font-size:19px}.bar .status{display:none}}
+</style>
+</head>
+<body>
+<script id="cfg" type="application/json">{"key": "pcf-demo", "brand": {"name": "Your Company", "web": "www.yourcompany.com", "email": "quality@yourcompany.com", "phone": "+00 000 000 00 00", "color": "#1f4e79", "logo": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCAyMDAgNjAiPjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iNjAiIHJ4PSI4IiBmaWxsPSIjZTVlN2ViIi8+PHRleHQgeD0iMTAwIiB5PSIzNyIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE2IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNmI3MjgwIj5ZT1VSIExPR088L3RleHQ+PC9zdmc+Cg=="}, "prefix": "PCF", "languages": ["en", "tr", "ru"], "defaultLang": "en", "recipients": [{"label": "Quality Department", "email": "quality@yourcompany.com"}], "allowCustomize": true, "ocr": {}, "taxonomy": {"common": [{"id": "cm_pkg", "label": {"en": "Damaged / torn / leaking packaging", "tr": "Hasarlı / yırtık / akan ambalaj", "ru": "Повреждённая / протекающая упаковка"}, "kw": ["torn", "damaged pack", "broken pail", "broken bucket", "leak", "yirtik", "hasarli ambalaj", "patlak", "akmis", "sizinti", "kova kirik", "kirik kova", "поврежд", "порван", "протек", "разорван", "треснул ведро"]}, {"id": "cm_label", "label": {"en": "Wrong / missing / damaged label", "tr": "Hatalı / eksik / hasarlı etiket", "ru": "Неправильная / отсутствующая этикетка"}, "kw": ["label", "sticker", "no batch", "etiket", "этикет", "наклейк"]}, {"id": "cm_wrong", "label": {"en": "Wrong product delivered", "tr": "Yanlış ürün gönderildi", "ru": "Поставлен не тот товар"}, "kw": ["wrong product", "different product", "yanlis urun", "farkli urun", "baska urun", "не тот товар", "другой товар", "перепут"]}, {"id": "cm_qty", "label": {"en": "Missing quantity / short delivery", "tr": "Eksik miktar / eksik teslimat", "ru": "Недостача при поставке"}, "kw": ["missing", "short delivery", "less than ordered", "eksik", "az geldi", "eksik geldi", "недостач", "не хватает", "недопостав"]}, {"id": "cm_weight", "label": {"en": "Net weight / volume below declared", "tr": "Net ağırlık / hacim eksik", "ru": "Вес / объём меньше заявленного"}, "kw": ["underweight", "net weight", "less weight", "volume", "kilo eksik", "agirlik", "hacim eksik", "недовес", "вес меньше", "объем меньше"]}, {"id": "cm_expired", "label": {"en": "Expired / short shelf life", "tr": "Raf ömrü geçmiş / kısa", "ru": "Истёк / короткий срок годности"}, "kw": ["expired", "shelf life", "expiry", "skt", "son kullanma", "raf omru", "tarihi gecmis", "срок годн", "просроч"]}, {"id": "cm_hard", "label": {"en": "Hardened / lumps / caked in package", "tr": "Ambalajda sertleşme / topaklanma", "ru": "Затвердевание / комки в упаковке"}, "kw": ["hardened", "lump", "caked", "solid in bag", "stone", "sertles", "topak", "taslas", "kesek", "katilas", "затверд", "комк", "окамен", "слежал"]}, {"id": "cm_frost", "label": {"en": "Frost damage in transport / storage", "tr": "Taşıma / depolamada donma", "ru": "Замерзание при перевозке / хранении"}, "kw": ["frozen", "frost", "freeze", "dondu", "donma", "donmus", "замерз", "мороз"]}, {"id": "cm_smell", "label": {"en": "Unusual odour / fermentation / gas", "tr": "Kötü koku / fermantasyon / gaz", "ru": "Неприятный запах / брожение"}, "kw": ["smell", "odor", "odour", "stink", "rotten", "ferment", "koku", "kokuyor", "curu", "fermant", "gaz yapmis", "запах", "воня", "брожен", "тухл"]}, {"id": "cm_other", "label": {"en": "Other (describe in text)", "tr": "Diğer (açıklamada belirtin)", "ru": "Другое (опишите в тексте)"}, "kw": ["other", "diger", "другое"]}], "groups": [{"id": "paint", "label": {"en": "Paints & Primers", "tr": "Boyalar ve Astarlar", "ru": "Краски и грунтовки"}, "kw": ["paint", "primer", "emulsion", "boya", "astar", "краск", "грунт"], "kind": "paint", "types": [{"id": "pt_colour", "label": {"en": "Colour deviation / batch-to-batch shade difference", "tr": "Renk sapması / parti arası ton farkı", "ru": "Отклонение цвета / разнотон между партиями"}, "kw": ["colour", "color", "unmatch", "mismatch", "not match", "does not match", "doesnt match", "different shade", "uyusmuyor", "uymuyor", "eslesmiyor", "несовпад", "не совпад", "отлича", "shade", "tone", "colour match", "color match", "deviation", "renk", "reng", "ton farki", "renk tutmuyor", "rengi tutmuyor", "ton tutmuyor", "farkli renk", "sapma", "цвет", "оттен", "разнотон", "не совпада"]}, {"id": "pt_cover", "label": {"en": "Poor hiding power / coverage", "tr": "Düşük örtücülük", "ru": "Плохая укрывистость"}, "kw": ["hiding", "coverage", "opacity", "see through", "ortucu", "ortmuyor", "alti gorunuyor", "укрыв", "просвеч"]}, {"id": "pt_visc", "label": {"en": "Viscosity / consistency problem (too thin / thick)", "tr": "Viskozite / kıvam sorunu (sulu / koyu)", "ru": "Вязкость / консистенция"}, "kw": ["viscos", "too thin", "too thick", "watery", "runny", "settling", "viskozite", "kivam", "sulu", "koyu", "cokme", "вязк", "жидк", "густ", "расслое"]}, {"id": "pt_peel", "label": {"en": "Peeling / flaking / poor adhesion", "tr": "Soyulma / pul pul dökülme / zayıf yapışma", "ru": "Отслаивание / шелушение / плохая адгезия"}, "kw": ["peel", "flake", "adhesion", "coming off", "soyul", "dokul", "pul pul", "yapismiyor", "отслаив", "шелуш", "адгез"]}, {"id": "pt_blister", "label": {"en": "Blistering / bubbling", "tr": "Kabarma / kabarcık", "ru": "Пузыри / вздутие"}, "kw": ["blister", "bubble", "kabar", "kabarcik", "пузыр", "вздут"]}, {"id": "pt_crack", "label": {"en": "Cracking / crazing", "tr": "Çatlama / kılcal çatlak", "ru": "Трещины / растрескивание"}, "kw": ["crack", "craz", "catla", "kilcal", "трещ"]}, {"id": "pt_chalk", "label": {"en": "Chalking / powdering / fading", "tr": "Tebeşirlenme / tozuma / solma", "ru": "Меление / выгорание"}, "kw": ["chalk", "powdering", "fade", "faded", "tebesir", "tozuma", "solma", "soldu", "мел", "выгор", "блекн"]}, {"id": "pt_dry", "label": {"en": "Slow drying / tackiness", "tr": "Geç kuruma / yapışkanlık", "ru": "Медленное высыхание / липкость"}, "kw": ["slow dry", "not drying", "tacky", "sticky", "gec kuru", "kurumuyor", "yapiskan", "высых", "липк"]}, {"id": "pt_finish", "label": {"en": "Gloss / sheen difference, roller or lap marks", "tr": "Parlaklık farkı / rulo izi / ek yeri", "ru": "Неравномерный блеск / следы валика"}, "kw": ["gloss", "sheen", "matt", "shiny", "roller mark", "lap mark", "flashing", "parlak", "mat yuzey", "mat gorun", "rulo izi", "ek yeri", "блеск", "следы валика", "полос"]}, {"id": "pt_stain", "label": {"en": "Stains / bleeding / yellowing", "tr": "Leke / renk atma / sararma", "ru": "Пятна / пожелтение"}, "kw": ["stain", "bleed", "yellow", "spot", "leke", "sarar", "sararma", "пятн", "желт"]}, {"id": "pt_mould", "label": {"en": "Mould / algae growth", "tr": "Küf / yosun", "ru": "Плесень / водоросли"}, "kw": ["mould", "mold", "algae", "fungus", "kuf", "yosun", "mantar", "плесен", "грибок", "водоросл"]}, {"id": "pt_wash", "label": {"en": "Poor washability / scrub resistance", "tr": "Düşük silinebilirlik", "ru": "Плохая стойкость к мытью"}, "kw": ["washab", "scrub", "wipe", "silinm", "yikanm", "silince", "мыть", "моющ"]}, {"id": "pt_efflor", "label": {"en": "Efflorescence / alkali burn", "tr": "Çiçeklenme / alkali yanığı", "ru": "Высолы / щелочные пятна"}, "kw": ["efflor", "salt", "alkali", "ciceklen", "tuzlan", "высол", "щелоч"]}, {"id": "pt_tint", "label": {"en": "Tinting problem (tinter not mixing / wrong colour)", "tr": "Renklendirme sorunu", "ru": "Проблема колеровки"}, "kw": ["tint", "tinter", "colorant", "pigment", "base", "renklendir", "baz", "колер", "пигмент", "база"]}], "products": []}, {"id": "deco", "label": {"en": "Decorative Plasters & Finishes", "tr": "Dekoratif Sıvalar ve Efektler", "ru": "Декоративные штукатурки"}, "kw": ["decorative", "plaster", "stucco", "dekoratif", "siva", "декор", "штукатур"], "kind": "decorative", "types": [{"id": "dc_colour", "label": {"en": "Colour deviation / shade difference", "tr": "Renk sapması / ton farkı", "ru": "Отклонение цвета / разнотон"}, "kw": ["colour", "color", "shade", "tone", "match", "green", "renk", "reng", "ton", "farkli renk", "yesil", "sapma", "цвет", "оттен", "тон", "разнотон", "зелен"]}, {"id": "dc_effect", "label": {"en": "Decorative effect not achieved (texture, metallic, pearl)", "tr": "Dekoratif efekt oluşmuyor (doku, metalik, sedef)", "ru": "Не получается эффект (фактура, металлик, перламутр)"}, "kw": ["effect", "texture", "pattern", "metallic", "pearl", "efekt", "desen", "doku", "sedef", "metalik", "эффект", "фактур", "перламут", "металлик"]}, {"id": "dc_grain", "label": {"en": "Grain / aggregate distribution problem", "tr": "Tane dağılımı sorunu", "ru": "Неравномерное зерно / наполнитель"}, "kw": ["grain", "aggregate", "granule", "tane", "agrega", "зерн", "гранул", "наполнит"]}, {"id": "dc_crack", "label": {"en": "Cracking", "tr": "Çatlama", "ru": "Трещины"}, "kw": ["crack", "catla", "трещ"]}, {"id": "dc_peel", "label": {"en": "Peeling / poor adhesion", "tr": "Soyulma / zayıf yapışma", "ru": "Отслаивание / плохая адгезия"}, "kw": ["peel", "adhesion", "flake", "soyul", "yapismiyor", "dokul", "отслаив", "адгез"]}, {"id": "dc_work", "label": {"en": "Workability / application problem", "tr": "Uygulama / işlenebilirlik sorunu", "ru": "Проблема нанесения"}, "kw": ["workab", "apply", "trowel", "drag", "uygulan", "mala", "surulmuyor", "нанес", "шпател", "тянется"]}, {"id": "dc_dry", "label": {"en": "Slow drying / curing", "tr": "Geç kuruma", "ru": "Медленное высыхание"}, "kw": ["slow dry", "not dry", "kurumuyor", "gec kuru", "высых"]}, {"id": "dc_visc", "label": {"en": "Consistency / separation in pail", "tr": "Kıvam / kovada ayrışma", "ru": "Консистенция / расслоение"}, "kw": ["viscos", "consistency", "separat", "thin", "thick", "kivam", "ayris", "sulu", "koyu", "консист", "расслое", "густ", "жидк"]}, {"id": "dc_stain", "label": {"en": "Stains / dirt pickup / water marks", "tr": "Leke / kirlenme / su izi", "ru": "Пятна / загрязнение / следы воды"}, "kw": ["stain", "dirt", "water mark", "leke", "kirlen", "su izi", "пятн", "грязн", "следы воды"]}], "products": []}, {"id": "tile", "label": {"en": "Tile Adhesives", "tr": "Seramik Yapıştırıcıları", "ru": "Плиточные клеи"}, "kw": ["tile adhesive", "tile", "ceramic", "seramik", "yapistirici", "karo", "плиточн", "плитк", "клей"], "kind": "tile_adhesive", "types": [{"id": "ta_bond", "label": {"en": "Poor bonding / tiles detached / hollow sound", "tr": "Zayıf yapışma / karo düşmesi / boş ses", "ru": "Плохая адгезия / отслоение плитки / пустоты"}, "kw": ["detach", "fell", "fall off", "debond", "loose tile", "not stick", "adhesion", "hollow", "dusme", "dustu", "dusuyor", "kopma", "yapismiyor", "yapisma", "bos ses", "kalkti", "отслоен", "отпал", "отвал", "не держит", "адгез", "пустот", "отходит"]}, {"id": "ta_open", "label": {"en": "Short open time / skin forms quickly", "tr": "Kısa açık bekleme süresi / kabuk bağlama", "ru": "Короткое открытое время / корка"}, "kw": ["open time", "skin", "dries fast", "dries quickly", "acik bekleme", "kabuk", "cabuk kuruyor", "открытое время", "корк", "быстро сохнет"]}, {"id": "ta_slip", "label": {"en": "Tiles slipping / sagging on wall", "tr": "Duvarda karo kayması", "ru": "Сползание плитки со стены"}, "kw": ["slip", "slide", "sag", "kayma", "kayiyor", "сполз", "скольз"]}, {"id": "ta_work", "label": {"en": "Poor workability / mixing / consistency", "tr": "Kötü işlenebilirlik / karışım / kıvam", "ru": "Плохая удобоукладываемость / консистенция"}, "kw": ["workability", "sticky", "heavy", "hard to spread", "mixing", "consistency", "islenebilir", "karisim", "kivam", "agir", "yayilmiyor", "удобоуклад", "консистенц", "тяжело", "размешив"]}, {"id": "ta_set", "label": {"en": "Slow setting / not hardening", "tr": "Geç priz alma / sertleşmeme", "ru": "Медленное схватывание / не твердеет"}, "kw": ["not set", "slow set", "not harden", "still soft", "priz", "sertlesmedi", "sertlesmiyor", "kurumadi", "yumusak", "не схватыв", "медленно схват", "не тверде", "мягк"]}, {"id": "ta_crack", "label": {"en": "Cracking / shrinkage of adhesive", "tr": "Yapıştırıcıda çatlama / rötre", "ru": "Трещины / усадка клея"}, "kw": ["crack", "shrink", "catla", "rotre", "трещ", "усадк"]}, {"id": "ta_stain", "label": {"en": "Staining / shading through tiles", "tr": "Karoda lekelenme / renk geçişi", "ru": "Пятна / просвечивание через плитку"}, "kw": ["stain", "shadow", "dark spot", "show through", "leke", "golge", "renk gecis", "пятн", "просвеч"]}, {"id": "ta_weak", "label": {"en": "Weak / dusty / powdery adhesive", "tr": "Tozuma / dağılma / düşük mukavemet", "ru": "Пыление / низкая прочность клея"}, "kw": ["powder", "dusty", "weak", "crumble", "tozuyor", "tozuma", "dagiliyor", "ufalan", "mukavemet", "пылит", "крош", "слаб", "прочност"]}], "products": []}, {"id": "grout", "label": {"en": "Grouts", "tr": "Derz Dolgular", "ru": "Затирки для швов"}, "kw": ["grout", "joint filler", "derz", "fuga", "затирк", "шов", "швы"], "kind": "grout", "types": [{"id": "gr_colour", "label": {"en": "Colour variation / shading / blotching", "tr": "Renk farkı / alacalanma", "ru": "Разнотон / пятнистость"}, "kw": ["colour", "color", "shade", "blotch", "different colour", "lighter", "darker", "renk", "reng", "ton", "alaca", "acik renk", "koyu", "farkli renk", "цвет", "оттен", "разнотон", "пятнист"]}, {"id": "gr_crack", "label": {"en": "Cracking / shrinking / sinking in joints", "tr": "Derzde çatlama / çökme", "ru": "Трещины / проседание в швах"}, "kw": ["crack", "shrink", "sink", "catla", "cokme", "cokuyor", "трещ", "усадк", "проседа"]}, {"id": "gr_powder", "label": {"en": "Powdering / dusting / erosion", "tr": "Tozuma / aşınma / dökülme", "ru": "Пыление / осыпание / вымывание"}, "kw": ["powder", "dusting", "sandy", "erode", "wash out", "tozuma", "asinma", "kumlan", "dokuluyor", "пыл", "осып", "вымыва"]}, {"id": "gr_efflor", "label": {"en": "Efflorescence / white deposits", "tr": "Çiçeklenme / beyaz leke", "ru": "Высолы / белый налёт"}, "kw": ["efflorescence", "white deposit", "salt", "ciceklen", "beyaz leke", "beyazlama", "tuzlan", "высол", "белый налет"]}, {"id": "gr_stain", "label": {"en": "Staining / dirt pickup / mould", "tr": "Lekelenme / kirlenme / küf", "ru": "Загрязнение / плесень"}, "kw": ["stain", "dirt", "mould", "mold", "black", "leke", "kirlen", "kuf", "kararma", "грязь", "загрязн", "плесен", "черне"]}, {"id": "gr_clean", "label": {"en": "Hard to clean off tiles / haze", "tr": "Karo yüzeyinden temizlenmiyor / film", "ru": "Трудно отмыть / налёт на плитке"}, "kw": ["hard to clean", "haze", "film", "residue", "temizlenmiyor", "film tabaka", "kalinti", "отмыв", "налет", "пленк"]}, {"id": "gr_epoxy", "label": {"en": "Epoxy grout not curing / sticky", "tr": "Epoksi derz kürlenmiyor / yapışkan", "ru": "Эпоксидная затирка не отверждается"}, "kw": ["epoxy", "sticky", "tacky", "epoksi", "yapiskan", "kurlen", "эпокс", "липк"]}], "products": []}, {"id": "wp", "label": {"en": "Waterproofing", "tr": "Su Yalıtımı", "ru": "Гидроизоляция"}, "kw": ["waterproof", "membrane", "insulation against water", "su yalitim", "izolasyon", "membran", "гидроизол", "мембран"], "kind": "waterproofing", "types": [{"id": "wp_leak", "label": {"en": "Water leakage / damp after application", "tr": "Su kaçağı / nem", "ru": "Протечка / сырость"}, "kw": ["leak", "kacag", "water passing", "damp", "wet", "seep", "kacak", "su geciyor", "su aliyor", "sizinti", "nem", "islak", "rutubet", "протеч", "протек", "сыро", "влаг", "мокр"]}, {"id": "wp_peel", "label": {"en": "Delamination / peeling from substrate", "tr": "Yüzeyden ayrılma / soyulma", "ru": "Отслоение от основания"}, "kw": ["peel", "delaminat", "detach", "debond", "soyul", "kalkiyor", "ayril", "отслаив", "отслоен", "отход"]}, {"id": "wp_blister", "label": {"en": "Blistering / bubbles / pinholes", "tr": "Kabarma / kabarcık / iğne deliği", "ru": "Пузыри / вздутия / проколы"}, "kw": ["blister", "bubble", "pinhole", "kabar", "kabarcik", "igne delig", "пузыр", "вздут"]}, {"id": "wp_crack", "label": {"en": "Cracking / loss of elasticity", "tr": "Çatlama / elastikiyet kaybı", "ru": "Трещины / потеря эластичности"}, "kw": ["crack", "elastic", "brittle", "catla", "elastik", "kirilgan", "трещ", "эластич", "хрупк"]}, {"id": "wp_cure", "label": {"en": "Not curing / remains sticky", "tr": "Kürlenmiyor / yapışkan kalıyor", "ru": "Не отверждается / липнет"}, "kw": ["not cure", "not curing", "sticky", "tacky", "not dry", "kurlenm", "kurumuyor", "yapiskan", "не высых", "не отвер", "липн"]}, {"id": "wp_uv", "label": {"en": "UV / weather degradation, chalking", "tr": "UV / hava etkisiyle bozulma, tebeşirlenme", "ru": "Разрушение от УФ / погоды"}, "kw": ["uv", "sunlight", "weather", "chalk", "fade", "gunes", "tebesir", "solma", "уф", "солнц", "мелен", "выгор"]}, {"id": "wp_mix", "label": {"en": "Mixing / consistency problem", "tr": "Karışım / kıvam sorunu", "ru": "Проблема смешивания / консистенции"}, "kw": ["mix", "consistency", "too thick", "too thin", "karisim", "kivam", "koyu", "sulu", "смеш", "консист", "густ", "жидк"]}, {"id": "wp_tile", "label": {"en": "Tile adhesive not bonding over membrane", "tr": "Membran üzerine yapıştırıcı tutmuyor", "ru": "Плитка не держится на гидроизоляции"}, "kw": ["tile over", "adhesive over", "over membrane", "uzerine seramik", "membran uzeri", "плитка на гидро"]}], "products": []}, {"id": "repair", "label": {"en": "Repair Mortars & Screeds", "tr": "Tamir Harçları ve Şaplar", "ru": "Ремонтные смеси и стяжки"}, "kw": ["repair mortar", "screed", "mortar", "tamir harc", "sap", "harc", "ремонтн", "стяжк", "раствор"], "kind": "repair", "types": [{"id": "rm_strength", "label": {"en": "Low strength / dusting / crumbling", "tr": "Düşük mukavemet / tozuma / dağılma", "ru": "Низкая прочность / пыление / крошение"}, "kw": ["strength", "weak", "dust", "crumble", "mukavemet", "zayif", "tozuma", "dagil", "прочност", "слаб", "пыл", "крош"]}, {"id": "rm_crack", "label": {"en": "Cracking / shrinkage", "tr": "Çatlama / rötre", "ru": "Трещины / усадка"}, "kw": ["crack", "shrink", "catla", "rotre", "трещ", "усадк"]}, {"id": "rm_bond", "label": {"en": "Delamination / poor bond to substrate", "tr": "Yüzeyden ayrılma / zayıf aderans", "ru": "Отслоение / плохое сцепление"}, "kw": ["delaminat", "detach", "debond", "bond", "hollow", "ayril", "aderans", "kabuk", "bos ses", "отслоен", "сцеплен", "пустот"]}, {"id": "rm_set", "label": {"en": "Setting time problem (too fast / too slow)", "tr": "Priz süresi sorunu (çok hızlı / yavaş)", "ru": "Время схватывания (слишком быстро / медленно)"}, "kw": ["setting", "sets too fast", "too slow", "priz", "cabuk donuyor", "gec donuyor", "схватыв"]}, {"id": "rm_level", "label": {"en": "Poor flow / levelling", "tr": "Yayılma / tesviye sorunu", "ru": "Плохое растекание / выравнивание"}, "kw": ["flow", "level", "self level", "yayil", "tesviye", "akis", "растек", "самонивел"]}, {"id": "rm_surface", "label": {"en": "Surface defects (pinholes, roughness, colour)", "tr": "Yüzey kusurları (delik, pürüz, renk)", "ru": "Дефекты поверхности (раковины, шероховатость)"}, "kw": ["surface", "pinhole", "rough", "yuzey", "puruz", "delik", "поверхн", "раковин", "шерох"]}, {"id": "rm_work", "label": {"en": "Workability / mixing problem", "tr": "İşlenebilirlik / karışım sorunu", "ru": "Удобоукладываемость / смешивание"}, "kw": ["workab", "mixing", "consistency", "islenebil", "karisim", "kivam", "удобоуклад", "смеш", "консист"]}], "products": []}, {"id": "floor", "label": {"en": "Floor Coatings (Epoxy / PU)", "tr": "Zemin Kaplamaları (Epoksi / PU)", "ru": "Наливные полы (эпоксид / ПУ)"}, "kw": ["epoxy", "polyurethane", "floor coating", "epoksi", "poliuretan", "zemin", "эпокс", "полиурет", "пол"], "kind": "floor", "types": [{"id": "fl_cure", "label": {"en": "Not curing / soft / tacky", "tr": "Kürlenmiyor / yumuşak / yapışkan", "ru": "Не отверждается / мягкий / липкий"}, "kw": ["not cur", "soft", "tacky", "sticky", "kurlenm", "yumusak", "yapiskan", "не отвер", "мягк", "липк"]}, {"id": "fl_blush", "label": {"en": "Amine blush / white haze / greasy film", "tr": "Amin terlemesi / beyaz film / bulanıklık", "ru": "Аминный налёт / белёсость"}, "kw": ["blush", "haze", "white film", "greasy", "cloudy", "milky", "terle", "beyaz film", "bulanik", "yagli", "аминн", "налет", "мутн", "белес"]}, {"id": "fl_bubble", "label": {"en": "Bubbles / pinholes / craters (fish eyes)", "tr": "Kabarcık / iğne deliği / krater", "ru": "Пузыри / кратеры («рыбий глаз»)"}, "kw": ["bubble", "pinhole", "crater", "fish eye", "kabarcik", "igne delig", "krater", "balik gozu", "пузыр", "кратер", "рыбий глаз"]}, {"id": "fl_peel", "label": {"en": "Delamination / peeling", "tr": "Ayrılma / soyulma", "ru": "Отслоение"}, "kw": ["delaminat", "peel", "detach", "ayril", "soyul", "kalkma", "отслоен", "отслаив"]}, {"id": "fl_colour", "label": {"en": "Colour difference / yellowing", "tr": "Renk farkı / sararma", "ru": "Разнотон / пожелтение"}, "kw": ["colour", "color", "yellow", "shade", "renk", "reng", "sarar", "ton", "цвет", "желт", "оттен"]}, {"id": "fl_wear", "label": {"en": "Poor abrasion / chemical resistance", "tr": "Düşük aşınma / kimyasal dayanımı", "ru": "Низкая стойкость к истиранию / химии"}, "kw": ["wear", "abrasion", "scratch", "chemical", "tyre mark", "tire mark", "asinma", "cizil", "kimyasal", "lastik izi", "истира", "царап", "хими"]}, {"id": "fl_level", "label": {"en": "Uneven surface / poor levelling", "tr": "Düzgün olmayan yüzey / tesviye sorunu", "ru": "Неровная поверхность"}, "kw": ["uneven", "level", "wavy", "duzgun degil", "dalgali", "tesviye", "неровн", "волн"]}, {"id": "fl_gloss", "label": {"en": "Gloss variation / matt patches", "tr": "Parlaklık farkı / mat bölgeler", "ru": "Неравномерный блеск / матовые пятна"}, "kw": ["gloss", "matt patch", "shiny", "parlak", "mat bolge", "блеск", "матов"]}, {"id": "fl_inject", "label": {"en": "Injection / crack sealing not effective", "tr": "Enjeksiyon / çatlak dolgu etkisiz", "ru": "Инъектирование неэффективно"}, "kw": ["inject", "enjeksiyon", "инъек"]}], "products": []}, {"id": "etics", "label": {"en": "Thermal Insulation (ETICS)", "tr": "Isı Yalıtımı (Mantolama)", "ru": "Теплоизоляция (СФТК)"}, "kw": ["thermal insulation", "etics", "eps", "stone wool", "mantolama", "isi yalitim", "теплоизол", "утепл", "пенопласт"], "kind": "etics", "types": [{"id": "et_crack", "label": {"en": "Render cracking (joints, corners, anchors)", "tr": "Sıva çatlakları (birleşim, köşe, dübel)", "ru": "Трещины штукатурки (стыки, углы, дюбели)"}, "kw": ["crack", "render crack", "catla", "siva catla", "трещ"]}, {"id": "et_detach", "label": {"en": "Board / render detachment", "tr": "Levha / sıva ayrılması", "ru": "Отслоение плит / штукатурки"}, "kw": ["detach", "board fell", "loose board", "levha dus", "plaka dus", "ayril", "отслоен", "отпал плит"]}, {"id": "et_dowel", "label": {"en": "Dowel / board joint marks visible", "tr": "Dübel / levha birleşim izleri görünüyor", "ru": "Видны дюбели / стыки плит"}, "kw": ["dowel", "anchor", "joint mark", "dubel", "ek yeri", "ek izi", "дюбел", "стык"]}, {"id": "et_adh", "label": {"en": "Adhesive not bonding board to wall", "tr": "Yapıştırıcı levhayı tutmuyor", "ru": "Клей не держит плиту"}, "kw": ["adhesive not bond", "glue", "yapistirici tutmuyor", "levha tutmuyor", "клей не держ"]}, {"id": "et_mesh", "label": {"en": "Mesh showing / embedding problem", "tr": "File görünüyor / gömme sorunu", "ru": "Сетка просвечивает"}, "kw": ["mesh", "file gorun", "сетк"]}, {"id": "et_finish", "label": {"en": "Finish render colour / texture defect", "tr": "Son kat sıva renk / doku kusuru", "ru": "Дефект финишного слоя (цвет / фактура)"}, "kw": ["finish", "texture", "colour", "color", "son kat", "doku", "renk", "reng", "финиш", "фактур", "цвет"]}, {"id": "et_board", "label": {"en": "Board quality (size, density, shrinkage)", "tr": "Levha kalitesi (ölçü, yoğunluk, çekme)", "ru": "Качество плит (размер, плотность)"}, "kw": ["board", "density", "dimension", "eps", "stone wool", "levha", "yogunluk", "olcu", "плит", "плотн", "размер"]}], "products": []}, {"id": "seal", "label": {"en": "Sealants & Foams", "tr": "Mastikler ve Köpükler", "ru": "Герметики и пены"}, "kw": ["sealant", "silicone", "mastic", "foam", "mastik", "silikon", "kopuk", "герметик", "силикон", "пена"], "kind": "sealant", "types": [{"id": "sl_adh", "label": {"en": "Poor adhesion / detaching from joint", "tr": "Zayıf yapışma / derzden ayrılma", "ru": "Плохая адгезия / отрыв от шва"}, "kw": ["adhesion", "detach", "not stick", "peel", "yapismiyor", "ayril", "kopuyor", "адгез", "отрыв", "не держит"]}, {"id": "sl_cure", "label": {"en": "Not curing / remains soft or sticky", "tr": "Kürlenmiyor / yumuşak kalıyor", "ru": "Не отверждается / остаётся липким"}, "kw": ["not cur", "soft", "sticky", "tacky", "kurlenm", "yumusak", "yapiskan", "не отвер", "мягк", "липк"]}, {"id": "sl_colour", "label": {"en": "Discolouration / yellowing", "tr": "Renk değişimi / sararma", "ru": "Изменение цвета / пожелтение"}, "kw": ["discolor", "discolour", "yellow", "renk degis", "sarar", "желт", "цвет"]}, {"id": "sl_mould", "label": {"en": "Mould growth", "tr": "Küf oluşumu", "ru": "Плесень"}, "kw": ["mould", "mold", "black spot", "kuf", "плесен"]}, {"id": "sl_bubble", "label": {"en": "Bubbles / voids in bead", "tr": "Kabarcık / boşluk", "ru": "Пузыри / пустоты"}, "kw": ["bubble", "void", "kabarcik", "bosluk", "пузыр", "пустот"]}, {"id": "sl_crack", "label": {"en": "Cracking / shrinkage", "tr": "Çatlama / büzülme", "ru": "Трещины / усадка"}, "kw": ["crack", "shrink", "catla", "buzul", "трещ", "усадк"]}, {"id": "sl_extrude", "label": {"en": "Hard to extrude / cartridge problem", "tr": "Kartuştan çıkmıyor / kartuş sorunu", "ru": "Трудно выдавливается / картридж"}, "kw": ["extrude", "cartridge", "gun", "kartus", "tabanca", "cikmiyor", "картридж", "выдав"]}, {"id": "sl_foam", "label": {"en": "Foam expansion / collapse problem", "tr": "Köpük genleşme / çökme sorunu", "ru": "Проблема расширения / усадки пены"}, "kw": ["foam", "expan", "collaps", "kopuk", "genles", "cokme", "пена", "расшир"]}], "products": []}, {"id": "add", "label": {"en": "Additives", "tr": "Katkılar", "ru": "Добавки"}, "kw": ["additive", "latex", "admixture", "katki", "lateks", "добавк", "латекс"], "kind": "additive", "types": [{"id": "ad_perf", "label": {"en": "Expected performance not achieved", "tr": "Beklenen performans alınmadı", "ru": "Не достигается заявленный эффект"}, "kw": ["performance", "no effect", "not work", "performans", "etki yok", "ise yaramiyor", "эффект", "не работает"]}, {"id": "ad_mix", "label": {"en": "Separation / coagulation", "tr": "Ayrışma / pıhtılaşma", "ru": "Расслоение / коагуляция"}, "kw": ["separat", "coagul", "curdle", "ayris", "pihti", "расслое", "коагул", "сверну"]}, {"id": "ad_set", "label": {"en": "Affects setting time / strength", "tr": "Priz süresini / mukavemeti etkiliyor", "ru": "Влияет на схватывание / прочность"}, "kw": ["setting", "strength", "priz", "mukavemet", "схватыв", "прочност"]}], "products": []}]}}</script>
+<div class="wrap">
+ <header class="top">
+  <img id="hLogo" alt="">
+  <div class="brand"><h1 data-i="title"></h1><div class="sub" id="hSub"></div></div>
+  <div class="meta">
+   <div class="langs" id="langs"></div>
+   <label class="trsw"><input type="checkbox" id="trOn"> 🌐 <span data-i="autoTr"></span> <span id="trStatus" class="note"></span></label>
+   <div style="margin-top:6px"><span data-i="complaintNo"></span>: <b id="cNo"></b></div>
+   <div><span data-i="date"></span>: <b id="cDate"></b></div>
+  </div>
+ </header>
+
+ <section class="card">
+  <h2><span class="n">1</span><span data-i="s1"></span></h2>
+  <div class="locked" id="lockBar" style="display:none"><span data-i="companyLocked"></span><button class="btn sm" id="btnEditCo" data-i="editCompany"></button></div>
+  <div class="grid">
+   <label class="f req"><span data-i="company"></span><input data-co="company"></label>
+   <label class="f req"><span data-i="contact"></span><input data-co="contact"></label>
+   <label class="f"><span data-i="position"></span><input data-co="position"></label>
+   <label class="f req"><span data-i="email"></span><input type="email" data-co="email"></label>
+   <label class="f req"><span data-i="phone"></span><input type="tel" data-co="phone"></label>
+   <label class="f"><span data-i="web"></span><input data-co="web" placeholder="www."></label>
+   <label class="f"><span data-i="country"></span><input data-co="country"></label>
+   <label class="f"><span data-i="address"></span><input data-co="address"></label>
+  </div>
+  <div class="row" style="margin-top:10px"><button class="btn pri sm" id="btnSaveCo" data-i="saveCompany"></button><span class="note" data-i="companyHint"></span></div>
+ </section>
+
+ <section class="card">
+  <h2><span class="n">2</span><span data-i="s2"></span></h2>
+  <div id="items"></div>
+  <button class="btn" id="btnAddItem">＋ <span data-i="addProduct"></span></button>
+ </section>
+
+ <section class="card">
+  <h2><span class="n">3</span><span data-i="s3"></span></h2>
+  <label class="f req"><span data-i="describe"></span><textarea id="desc" data-i-ph="describePh"></textarea><div class="trnote" data-trn="desc"></div></label>
+  <div class="sugg" id="sugg"></div>
+  <div class="note" style="margin:8px 0" data-i="typesHint"></div>
+  <div id="types"></div>
+  <div class="grid" style="margin-top:6px">
+   <label class="f"><span data-i="whenObserved"></span><select id="observed"></select></label>
+   <label class="f"><span data-i="appDate"></span><input type="date" id="appDate"></label>
+   <label class="f"><span data-i="substrate"></span><input id="substrate"><div class="trnote" data-trn="substrate"></div></label>
+   <label class="f"><span data-i="conditions"></span><input id="conditions" data-i-ph="conditionsPh"><div class="trnote" data-trn="conditions"></div></label>
+   <label class="f"><span data-i="area"></span><input id="area"></label>
+   <label class="f"><span data-i="applicator"></span><input id="applicator"></label>
+  </div>
+ </section>
+
+ <section class="card">
+  <h2><span class="n">4</span><span data-i="s4"></span> <span class="note" id="phCount"></span></h2>
+  <div class="row"><label class="btn">📷 <span data-i="addPhotos"></span><input type="file" id="phIn" accept="image/*" multiple hidden></label><span class="note" data-i="photosHint"></span></div>
+  <div class="photos" id="photos"></div>
+ </section>
+
+ <section class="card">
+  <h2><span class="n">5</span><span data-i="s5"></span></h2>
+  <div class="checks" id="requests"></div>
+  <div class="grid" style="margin-top:10px">
+   <label class="f"><span data-i="urgency"></span><select id="urgency"></select></label>
+   <label class="f"><span data-i="claimValue"></span><input id="claimValue" data-i-ph="claimValuePh"></label>
+  </div>
+  <label class="f" style="margin-top:10px"><span data-i="notes"></span><textarea id="notes" style="min-height:70px"></textarea><div class="trnote" data-trn="notes"></div></label>
+ </section>
+
+ <section class="card">
+  <h2><span class="n">6</span><span data-i="s6"></span></h2>
+  <p class="note" data-i="declText"></p>
+  <div class="grid">
+   <label class="f req"><span data-i="signer"></span><input id="signer"></label>
+   <label class="f"><span data-i="signerPos"></span><input id="signerPos"></label>
+  </div>
+ </section>
+ <p class="note" style="text-align:center;margin-top:18px" id="foot"></p>
+</div>
+
+<div class="bar"><div class="row">
+ <span class="status" id="status"></span>
+ <button class="btn sm" id="btnSettings" style="display:none">⚙️ <span data-i="settings"></span></button>
+ <button class="btn sm" id="btnNew">🆕 <span data-i="newC"></span></button>
+ <button class="btn sm" id="btnHtml">💾 <span data-i="saveHtml"></span></button>
+ <button class="btn sm" id="btnPdf">📄 <span data-i="pdf"></span></button>
+ <button class="btn pri sm" id="btnMail">✉️ <span data-i="email2"></span></button>
+</div></div>
+
+<div class="modal" id="mMail"><div class="box">
+ <h3 data-i="sendTitle"></h3>
+ <label class="f"><span data-i="toEmail"></span><select id="mailTo"></select></label>
+ <label class="f" id="mailOtherWrap" style="margin-top:8px;display:none"><span data-i="otherEmail"></span><input type="email" id="mailOther"></label>
+ <p class="note" data-i="sendHint"></p>
+ <div class="row" style="justify-content:flex-end"><button class="btn" data-close data-i="cancel"></button><button class="btn pri" id="mailGo" data-i="send"></button></div>
+</div></div>
+
+<div class="modal" id="mSet"><div class="box">
+ <h3>⚙️ <span data-i="settings"></span></h3>
+ <p class="note" data-i="setIntro"></p>
+ <div class="grid">
+  <label class="f"><span data-i="setName"></span><input id="sName"></label>
+  <label class="f"><span data-i="web"></span><input id="sWeb"></label>
+  <label class="f"><span data-i="email"></span><input id="sEmail"></label>
+  <label class="f"><span data-i="phone"></span><input id="sPhone"></label>
+  <label class="f"><span data-i="setColor"></span><input type="color" id="sColor" style="height:40px;padding:3px"></label>
+  <label class="f"><span data-i="setPrefix"></span><input id="sPrefix"></label>
+ </div>
+ <label class="f" style="margin-top:10px"><span data-i="setLogo"></span><input type="file" id="sLogo" accept="image/*"></label>
+ <label class="f" style="margin-top:10px"><span data-i="setRecip"></span><textarea id="sRecip" style="min-height:70px" placeholder="Quality Dept | quality@yourcompany.com"></textarea></label>
+ <h4 style="margin:16px 0 6px" data-i="setTax"></h4>
+ <p class="note" data-i="setTaxHint"></p>
+ <div class="row"><button class="btn sm" id="sTpl">⬇️ <span data-i="setTpl"></span></button><label class="btn sm">⬆️ <span data-i="setImport"></span><input type="file" id="sImp" accept=".xlsx,.xls,.csv" hidden></label><button class="btn sm" id="sTaxReset" data-i="setTaxReset"></button></div>
+ <div class="row" style="justify-content:flex-end;margin-top:16px"><button class="btn sm" id="sReset" data-i="setReset"></button><button class="btn" data-close data-i="cancel"></button><button class="btn pri" id="sSave" data-i="save"></button></div>
+</div></div>
+
+<div class="modal" id="mGroup"><div class="box" style="max-width:460px">
+ <h3>📦 <span data-i="gqTitle"></span></h3>
+ <p class="note" data-i="gqHint"></p>
+ <p class="note" id="gqText" style="font-style:italic"></p>
+ <div id="gqBtns"></div>
+ <div class="row" style="justify-content:flex-end;margin-top:6px"><button class="btn sm" id="gqSkip" data-i="gqSkip"></button></div>
+</div></div>
+
+<div class="toast" id="toast"></div>
+<div id="report"></div>
+
+<script>
+"use strict";
+// pristine copy of this page (taken before anything is filled in) — used by "Save HTML"
+const SRC_HTML = (()=>{ const h='<!DOCTYPE html>\n'+document.documentElement.outerHTML, cut=h.indexOf('<script id="cfg"');
+  return h.slice(0,cut).replace(/<script id="preload"[\s\S]*?<\/script>\s*/,'') + h.slice(cut); })();
+const CFG0 = JSON.parse(document.getElementById('cfg').textContent);
+// a saved HTML copy carries its complaint inside; it is kept separate from this browser's own draft
+const PRE = (()=>{try{const e=document.getElementById('preload');return e?JSON.parse(e.textContent):null}catch(e){return null}})();
+const KEY = (CFG0.key || 'pcf') + (PRE ? '_copy_'+PRE.id : '');
+const LS = {
+  get(k,d){try{const v=localStorage.getItem(KEY+'_'+k);return v?JSON.parse(v):d}catch(e){return d}},
+  set(k,v){try{localStorage.setItem(KEY+'_'+k,JSON.stringify(v));return true}catch(e){return false}},
+  del(k){try{localStorage.removeItem(KEY+'_'+k)}catch(e){}}
+};
+let CFG = JSON.parse(JSON.stringify(CFG0));
+if (PRE){ if(PRE.brand) CFG.brand=PRE.brand; if(PRE.recipients) CFG.recipients=PRE.recipients; if(PRE.prefix) CFG.prefix=PRE.prefix; if(PRE.taxonomy) CFG.taxonomy=PRE.taxonomy; }
+if (CFG.allowCustomize && !PRE){
+  const b = LS.get('brand',null);
+  if (b){ Object.assign(CFG.brand, b.brand||{}); if(b.recipients) CFG.recipients=b.recipients; if(b.prefix) CFG.prefix=b.prefix; }
+  const tx = LS.get('taxonomy',null); if (tx) CFG.taxonomy = tx;
+}
+
+/* ---------------- UI text ---------------- */
+const T = {
+en:{title:'Product Complaint Form',complaintNo:'Complaint No',date:'Date',s1:'Customer / Dealer Details',company:'Company name',contact:'Contact person',position:'Position',email:'E-mail',phone:'Phone',web:'Website',country:'Country / City',address:'Address',editCompany:'✏️ Edit company details',saveCompany:'💾 Save company details',companyLocked:'🔒 Your company details are saved on this device and kept for every new complaint.',companyHint:'Saved details stay when you start a new complaint.',companySaved:'Company details saved',
+s2:'Product Details',addProduct:'Add another product',item:'Product',group:'Product group',product:'Product name',code:'Product code',batch:'Batch / Lot No',prodDate:'Production date',expDate:'Expiry date',pack:'Package size',qty:'Quantity affected',invoice:'Invoice / Delivery note No',delivery:'Delivery date',labelPhoto:'Upload a label photo, and the batch no, dates and product are filled in automatically',labelBtn:'Read label photo',reading:'Reading label… ',ocrDone:'Read from photo. Please check the yellow fields.',ocrNone:'Nothing could be read. Please type the values, or try a sharper, closer photo.',ocrFail:'Label reading needs an internet connection. Please type the values.',rawText:'Text read from photo',remove:'Remove',choose:'— select —',
+s3:'Complaint Description',types3:'Complaint types',describe:'Describe the problem in your own words',describePh:'e.g. The paint colour of the new batch does not match the previous one, and the wall looks patchy after the second coat…',suggested:'Detected from your description:',typesHint:'Complaint types are selected automatically from your description (marked AUTO). Please check them, and add or remove as needed.',auto:'AUTO',common:'General / Delivery & Packaging',whenObserved:'When was the problem noticed?',obs:['— select —','On delivery','During storage','During mixing / application','Within 7 days after application','Later than 7 days after application'],appDate:'Application date',substrate:'Substrate / surface',conditions:'Site conditions',conditionsPh:'temperature, humidity, weather',area:'Applied area / amount',applicator:'Applicator',
+s4:'Photos',addPhotos:'Add photos',photosHint:'Up to 10 photos: the label, the problem close-up and the general view.',caption:'caption',maxPhotos:'Maximum 10 photos.',
+s5:'Requested Action',req:['Replacement of goods','Credit note / refund','Laboratory analysis','Technical site visit','Information only'],urgency:'Urgency',urg:['Normal','Urgent','Critical (site stopped)'],claimValue:'Claimed value / quantity',claimValuePh:'e.g. 40 pails, 1,200 USD',notes:'Additional notes',
+s6:'Declaration',declText:'I confirm that the information above is correct, and that the product was stored and applied according to the technical data sheet.',signer:'Name & surname',signerPos:'Position',
+settings:'Customize',newC:'New complaint',pdf:'Save PDF',email2:'Send by e-mail',save:'Save',cancel:'Cancel',send:'Continue',sendTitle:'Send by e-mail',toEmail:'Send to',otherEmail:'E-mail address',other:'Other…',sendHint:'A PDF of the form is created. On phones it opens your mail app with the PDF attached. On computers the PDF is downloaded and an e-mail opens, so attach the downloaded PDF before sending.',
+newConfirm:'Start a new complaint? The current complaint is cleared. Your company details are kept.',saved:'Saved on this device',required:'Please fill in the required fields marked in red.',pdfMaking:'Creating PDF…',pdfOk:'PDF saved',pdfFail:'PDF creation needs an internet connection the first time.',attachNote:'Please attach the downloaded PDF',
+setIntro:'Brand this form for your company. These settings are saved in this browser.',setName:'Company name',setColor:'Brand colour',setPrefix:'Complaint No prefix',setLogo:'Logo',setRecip:'E-mail recipients (one per line: Name | e-mail)',setTax:'Product groups & complaint types',setTaxHint:'Download the Excel template, edit your product groups, complaint types, keywords and products, then upload it again. Excel (.xlsx) or CSV.',setTpl:'Excel template',setImport:'Upload Excel / CSV',setTaxReset:'Restore default list',setReset:'Reset branding',taxOk:'Product groups & complaint types updated',taxBad:'The file could not be read. Please use the template.',
+pickGroup:'Which product group is this? Tap one:',saveHtml:'Save HTML',htmlOk:'HTML copy saved. Open it any time to view, continue or send the complaint.',pkTitle:'Problem packages',pkHint:'which pack sizes are affected, and how many units of each',pkHintPaint:'same batch can come in different pails (1 L, 2.5 L, 7.5 L, 15 L…). Enter each pail size, base / colour and how many units',pkSize:'Pack size',pkBase:'Base / colour code',pkBasePh:'e.g. Base A / 7801T',pkUnits:'Units (pails / bags)',pkAdd:'Add pack size',pkWhole:'Whole batch affected (all pack sizes)',pkTotal:'Total units',labelRemoved:'Label photo removed, and the details read from it were cleared.',gqTitle:'Which product group?',gqHint:'Your description fits more than one product group. Please choose the right one, for example interior or exterior:',gqSkip:'Not sure — skip',autoTr:'Auto-translate',translating:'translating…',trDone:'✓ translated',trFail:'translation unavailable (offline?)',trFrom:'Auto-translated from',showOrig:'Show original',hideOrig:'Hide original',original:'Original',
+footer:'This form saves your data on your own device. Nothing is sent until you choose to send it.'},
+tr:{title:'Ürün Şikayet Formu',complaintNo:'Şikayet No',date:'Tarih',s1:'Müşteri / Bayi Bilgileri',company:'Firma adı',contact:'İlgili kişi',position:'Görevi',email:'E-posta',phone:'Telefon',web:'Web sitesi',country:'Ülke / Şehir',address:'Adres',editCompany:'✏️ Firma bilgilerini düzenle',saveCompany:'💾 Firma bilgilerini kaydet',companyLocked:'🔒 Firma bilgileriniz bu cihazda kayıtlı ve her yeni şikayette korunur.',companyHint:'Kaydedilen bilgiler yeni şikayette silinmez.',companySaved:'Firma bilgileri kaydedildi',
+s2:'Ürün Bilgileri',addProduct:'Başka ürün ekle',item:'Ürün',group:'Ürün grubu',product:'Ürün adı',code:'Ürün kodu',batch:'Parti / Lot No',prodDate:'Üretim tarihi',expDate:'Son kullanma tarihi',pack:'Ambalaj',qty:'Etkilenen miktar',invoice:'Fatura / İrsaliye No',delivery:'Teslim tarihi',labelPhoto:'Etiket fotoğrafı yükleyin; parti no, tarihler ve ürün otomatik doldurulur',labelBtn:'Etiket fotoğrafını oku',reading:'Etiket okunuyor… ',ocrDone:'Fotoğraftan okundu. Lütfen sarı alanları kontrol edin.',ocrNone:'Okunamadı. Lütfen değerleri yazın veya daha net, yakın bir fotoğraf deneyin.',ocrFail:'Etiket okuma için internet bağlantısı gerekir. Lütfen değerleri yazın.',rawText:'Fotoğraftan okunan metin',remove:'Kaldır',choose:'— seçin —',
+s3:'Şikayet Açıklaması',types3:'Şikayet türleri',describe:'Sorunu kendi cümlelerinizle anlatın',describePh:'örn. Yeni partinin boya rengi önceki partiyle tutmuyor, ikinci kattan sonra duvar alacalı görünüyor…',suggested:'Açıklamanızdan tespit edilen:',typesHint:'Şikayet türleri açıklamanıza göre otomatik seçilir (OTOMATİK işaretli). Lütfen kontrol edin, gerekirse ekleyin veya çıkarın.',auto:'OTOMATİK',common:'Genel / Teslimat ve Ambalaj',whenObserved:'Sorun ne zaman fark edildi?',obs:['— seçin —','Teslimatta','Depolama sırasında','Karıştırma / uygulama sırasında','Uygulamadan sonraki 7 gün içinde','Uygulamadan 7 günden sonra'],appDate:'Uygulama tarihi',substrate:'Uygulama yüzeyi',conditions:'Şantiye koşulları',conditionsPh:'sıcaklık, nem, hava durumu',area:'Uygulanan alan / miktar',applicator:'Uygulayıcı',
+s4:'Fotoğraflar',addPhotos:'Fotoğraf ekle',photosHint:'En fazla 10 fotoğraf: etiket, sorunun yakın çekimi ve genel görünüm.',caption:'açıklama',maxPhotos:'En fazla 10 fotoğraf.',
+s5:'Talep Edilen Aksiyon',req:['Ürün değişimi','Alacak dekontu / iade','Laboratuvar analizi','Teknik saha ziyareti','Sadece bilgi'],urgency:'Aciliyet',urg:['Normal','Acil','Kritik (şantiye durdu)'],claimValue:'Talep edilen tutar / miktar',claimValuePh:'örn. 40 kova, 1.200 USD',notes:'Ek notlar',
+s6:'Beyan',declText:'Yukarıdaki bilgilerin doğru olduğunu, ürünün teknik föyüne uygun depolanıp uygulandığını beyan ederim.',signer:'Ad soyad',signerPos:'Görevi',
+settings:'Özelleştir',newC:'Yeni şikayet',pdf:'PDF kaydet',email2:'E-posta ile gönder',save:'Kaydet',cancel:'İptal',send:'Devam',sendTitle:'E-posta ile gönder',toEmail:'Alıcı',otherEmail:'E-posta adresi',other:'Diğer…',sendHint:'Formun PDF’i oluşturulur. Telefonda e-posta uygulamanız PDF ekli olarak açılır. Bilgisayarda PDF indirilir ve e-posta açılır; göndermeden önce indirilen PDF’i ekleyin.',
+newConfirm:'Yeni şikayet başlatılsın mı? Mevcut şikayet temizlenir, firma bilgileriniz korunur.',saved:'Bu cihazda kaydedildi',required:'Lütfen kırmızı işaretli zorunlu alanları doldurun.',pdfMaking:'PDF oluşturuluyor…',pdfOk:'PDF kaydedildi',pdfFail:'PDF oluşturmak için ilk seferde internet bağlantısı gerekir.',attachNote:'Lütfen indirilen PDF’i ekleyin',
+setIntro:'Bu formu kendi firmanız için markalayın. Ayarlar bu tarayıcıda saklanır.',setName:'Firma adı',setColor:'Marka rengi',setPrefix:'Şikayet No ön eki',setLogo:'Logo',setRecip:'E-posta alıcıları (her satıra: Ad | e-posta)',setTax:'Ürün grupları ve şikayet türleri',setTaxHint:'Excel şablonunu indirin; ürün gruplarınızı, şikayet türlerini, anahtar kelimeleri ve ürünleri düzenleyip tekrar yükleyin. Excel (.xlsx) veya CSV.',setTpl:'Excel şablonu',setImport:'Excel / CSV yükle',setTaxReset:'Varsayılan listeye dön',setReset:'Markayı sıfırla',taxOk:'Ürün grupları ve şikayet türleri güncellendi',taxBad:'Dosya okunamadı. Lütfen şablonu kullanın.',
+pickGroup:'Hangi ürün grubu? Birini seçin:',saveHtml:'HTML kaydet',htmlOk:'HTML kopyası kaydedildi. İstediğiniz zaman açıp görüntüleyebilir, devam edebilir veya gönderebilirsiniz.',pkTitle:'Sorunlu ambalajlar',pkHint:'hangi ambalajlar etkilendi ve her birinden kaç adet',pkHintPaint:'aynı parti farklı kovalarda olabilir (1 L, 2,5 L, 7,5 L, 15 L…). Her kova boyutunu, baz / renk kodunu ve adedini girin',pkSize:'Ambalaj',pkBase:'Baz / renk kodu',pkBasePh:'örn. Baz A / 7801T',pkUnits:'Adet (kova / torba)',pkAdd:'Ambalaj ekle',pkWhole:'Partinin tamamı sorunlu (tüm ambalajlar)',pkTotal:'Toplam adet',labelRemoved:'Etiket fotoğrafı silindi; ondan okunan bilgiler temizlendi.',gqTitle:'Hangi ürün grubu?',gqHint:'Açıklamanız birden fazla ürün grubuna uyuyor. Lütfen doğru olanı seçin, örneğin iç cephe veya dış cephe:',gqSkip:'Emin değilim — geç',autoTr:'Otomatik çeviri',translating:'çevriliyor…',trDone:'✓ çevrildi',trFail:'çeviri yapılamadı (internet yok?)',trFrom:'Otomatik çevrildi, orijinal dil:',showOrig:'Orijinali göster',hideOrig:'Orijinali gizle',original:'Orijinal',
+footer:'Bu form verilerinizi kendi cihazınızda saklar. Siz göndermeden hiçbir bilgi gönderilmez.'},
+ru:{title:'Форма рекламации на продукцию',complaintNo:'№ рекламации',date:'Дата',s1:'Данные клиента / дилера',company:'Название компании',contact:'Контактное лицо',position:'Должность',email:'E-mail',phone:'Телефон',web:'Веб-сайт',country:'Страна / город',address:'Адрес',editCompany:'✏️ Изменить данные компании',saveCompany:'💾 Сохранить данные компании',companyLocked:'🔒 Данные компании сохранены на этом устройстве и подставляются в каждую новую рекламацию.',companyHint:'Сохранённые данные остаются при создании новой рекламации.',companySaved:'Данные компании сохранены',
+s2:'Данные о продукте',addProduct:'Добавить продукт',item:'Продукт',group:'Группа продукции',product:'Наименование',code:'Код продукта',batch:'Партия / Lot №',prodDate:'Дата производства',expDate:'Годен до',pack:'Упаковка',qty:'Количество с дефектом',invoice:'№ счёта / накладной',delivery:'Дата поставки',labelPhoto:'Загрузите фото этикетки: номер партии, даты и продукт заполнятся автоматически',labelBtn:'Распознать этикетку',reading:'Распознавание… ',ocrDone:'Распознано с фото. Проверьте жёлтые поля.',ocrNone:'Не удалось распознать. Введите данные вручную или сделайте более чёткое фото крупным планом.',ocrFail:'Для распознавания нужен интернет. Введите данные вручную.',rawText:'Распознанный текст',remove:'Удалить',choose:'— выберите —',
+s3:'Описание проблемы',types3:'Типы рекламации',describe:'Опишите проблему своими словами',describePh:'напр. Цвет краски новой партии не совпадает с предыдущей, после второго слоя стена пятнистая…',suggested:'Определено по описанию:',typesHint:'Типы рекламации выбираются автоматически по описанию (отметка АВТО). Проверьте и при необходимости измените.',auto:'АВТО',common:'Общее / поставка и упаковка',whenObserved:'Когда обнаружена проблема?',obs:['— выберите —','При поставке','При хранении','При смешивании / нанесении','В течение 7 дней после нанесения','Позже 7 дней после нанесения'],appDate:'Дата нанесения',substrate:'Основание / поверхность',conditions:'Условия на объекте',conditionsPh:'температура, влажность, погода',area:'Площадь / объём нанесения',applicator:'Исполнитель работ',
+s4:'Фотографии',addPhotos:'Добавить фото',photosHint:'До 10 фото: этикетка, дефект крупным планом и общий вид.',caption:'подпись',maxPhotos:'Не более 10 фото.',
+s5:'Требуемые действия',req:['Замена товара','Кредит-нота / возврат','Лабораторный анализ','Выезд технолога','Только для информации'],urgency:'Срочность',urg:['Обычная','Срочно','Критично (объект стоит)'],claimValue:'Сумма / количество претензии',claimValuePh:'напр. 40 вёдер, 1 200 USD',notes:'Дополнительно',
+s6:'Подтверждение',declText:'Подтверждаю, что информация верна, а продукт хранился и применялся согласно техническому описанию.',signer:'Ф.И.О.',signerPos:'Должность',
+settings:'Настроить',newC:'Новая рекламация',pdf:'Сохранить PDF',email2:'Отправить по e-mail',save:'Сохранить',cancel:'Отмена',send:'Далее',sendTitle:'Отправить по e-mail',toEmail:'Кому',otherEmail:'Адрес e-mail',other:'Другой…',sendHint:'Создаётся PDF формы. На телефоне откроется почта с вложенным PDF. На компьютере PDF скачается и откроется письмо — приложите скачанный PDF перед отправкой.',
+newConfirm:'Начать новую рекламацию? Текущая будет очищена, данные компании сохранятся.',saved:'Сохранено на этом устройстве',required:'Заполните обязательные поля, отмеченные красным.',pdfMaking:'Создание PDF…',pdfOk:'PDF сохранён',pdfFail:'Для первого создания PDF нужен интернет.',attachNote:'Приложите скачанный PDF',
+setIntro:'Оформите форму под свою компанию. Настройки хранятся в этом браузере.',setName:'Название компании',setColor:'Фирменный цвет',setPrefix:'Префикс номера',setLogo:'Логотип',setRecip:'Получатели (по строке: Имя | e-mail)',setTax:'Группы продукции и типы рекламаций',setTaxHint:'Скачайте шаблон Excel, внесите свои группы, типы рекламаций, ключевые слова и продукты, затем загрузите обратно. Excel (.xlsx) или CSV.',setTpl:'Шаблон Excel',setImport:'Загрузить Excel / CSV',setTaxReset:'Вернуть список по умолчанию',setReset:'Сбросить оформление',taxOk:'Группы и типы рекламаций обновлены',taxBad:'Файл не прочитан. Используйте шаблон.',
+pickGroup:'К какой группе продукции относится? Выберите:',saveHtml:'Сохранить HTML',htmlOk:'HTML-копия сохранена. Её можно открыть, продолжить или отправить.',pkTitle:'Упаковки с дефектом',pkHint:'какие фасовки затронуты и сколько единиц каждой',pkHintPaint:'одна партия может быть в разных вёдрах (1 л, 2,5 л, 7,5 л, 15 л…). Укажите фасовку, базу / код цвета и количество',pkSize:'Фасовка',pkBase:'База / код цвета',pkBasePh:'напр. База A / 7801T',pkUnits:'Кол-во (вёдер / мешков)',pkAdd:'Добавить фасовку',pkWhole:'Дефект всей партии (все фасовки)',pkTotal:'Всего единиц',labelRemoved:'Фото этикетки удалено, распознанные данные очищены.',gqTitle:'Какая группа продукции?',gqHint:'Описание подходит к нескольким группам. Выберите нужную, например интерьер или фасад:',gqSkip:'Не уверен — пропустить',autoTr:'Автоперевод',translating:'перевод…',trDone:'✓ переведено',trFail:'перевод недоступен (нет интернета?)',trFrom:'Автоперевод, язык оригинала:',showOrig:'Показать оригинал',hideOrig:'Скрыть оригинал',original:'Оригинал',
+footer:'Форма хранит данные только на вашем устройстве. Ничего не отправляется без вашего действия.'}
+};
+let L = LS.get('lang', (PRE&&PRE.lang) || CFG.defaultLang || (CFG.languages||['en'])[0]);
+if (!T[L]) L='en';
+const t = k => (T[L][k] ?? T.en[k] ?? k);
+const lbl = o => (o && (o[L] || o.en)) || '';
+
+/* ---------------- helpers ---------------- */
+const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+const esc = s => String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function norm(s){return String(s||'').replace(/İ/g,'i').replace(/I/g,'i').toLowerCase().replace(/ı/g,'i').normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/\s+/g,' ')}
+function toast(m,ms=2600){const e=$('#toast');e.textContent=m;e.style.display='block';clearTimeout(e._t);e._t=setTimeout(()=>e.style.display='none',ms)}
+function loadScript(src){return new Promise((res,rej)=>{if(document.querySelector(`script[src="${src}"]`)) return res();const s=document.createElement('script');s.src=src;s.onload=res;s.onerror=rej;document.head.appendChild(s)})}
+const kwRe = {};
+function hasKw(n, kw){const k=norm(kw).trim(); if(!k) return false; const r = kwRe[k] || (kwRe[k]=new RegExp('(^|[^\\p{L}\\p{N}])'+k.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'u')); return r.test(n)}
+
+/* ---------------- state ---------------- */
+const rid = () => Math.random().toString(36).slice(2,9);
+const blankRow = () => ({size:'',units:'',base:''});
+const blankItem = () => ({id:rid(),group:'',product:'',code:'',batch:'',prod:'',exp:'',invoice:'',delivery:'',rows:[blankRow()],whole:false,auto:{},ocrText:''});
+const blank = () => ({no:'',date:new Date().toISOString().slice(0,10),items:[blankItem()],desc:'',types:{},autoTypes:{},observed:0,appDate:'',substrate:'',conditions:'',area:'',applicator:'',photos:[],requests:[],urgency:0,claimValue:'',notes:'',signer:'',signerPos:'',tx:{}});
+let S = Object.assign(blank(), LS.get('draft', PRE ? PRE.S : {}));
+if(!S.tx) S.tx={};
+S.items.forEach(i=>{ if(!i.id) i.id=rid(); if(!i.rows) i.rows=[{size:i.pack||'',units:i.qty||'',base:''}]; if(!i.auto) i.auto={}; });
+['desc','substrate','conditions','notes'].forEach(f=>{ if(S[f] && !S.tx[f]){ const s=/[а-яё]/i.test(S[f])?'ru':(/[çğışöüİ]/i.test(S[f])?'tr':'en'); S.tx[f]={src:s,[s]:S[f]} } });
+let CO = LS.get('company', PRE ? PRE.company : null);
+let coEditing = !CO;
+let company = Object.assign({company:'',contact:'',position:'',email:'',phone:'',web:'',country:'',address:''}, CO||{}, S.companyDraft||{});
+if (S.companyDraft && CO) coEditing = true;
+
+function complaintNo(){
+  if (!S.no){ const n=(LS.get('counter',0)||0)+1; LS.set('counter',n); S.no=String(n).padStart(4,'0'); }
+  const ini = norm(company.company).replace(/[^a-z0-9]/g,'').slice(0,3).toUpperCase();
+  return [(CFG.prefix||'PCF'), S.date.slice(0,4), ini, S.no].filter(Boolean).join('-');
+}
+let saveT;
+function persist(){clearTimeout(saveT);saveT=setTimeout(()=>{
+  S.companyDraft = coEditing ? company : null;
+  let ok = LS.set('draft', S);
+  if(!ok) LS.set('draft', Object.assign({}, S, {photos:[]}));
+  $('#status').textContent = '✓ '+t('saved')+' · '+new Date().toTimeString().slice(0,5);
+},400)}
+
+/* ---------------- taxonomy ---------------- */
+const TAX = () => CFG.taxonomy;
+const groupById = id => TAX().groups.find(g=>g.id===id);
+function allProducts(){const a=[];TAX().groups.forEach(g=>(g.products||[]).forEach(p=>a.push({g:g.id,code:p.code,name:p.name,n:norm(p.name)})));return a}
+
+function manualGroups(){ return S.items.filter(i=>i.group && !i.auto.group).map(i=>i.group) }
+function classify(text){
+  const n = ' '+norm(text)+' ';
+  const res = {groups:[], types:[], tied:[], clear:false};
+  if (n.trim().length < 4) return res;
+  const kwScore=(list)=>{let s=0;(list||[]).forEach(ty=>(ty.kw||[]).forEach(k=>{if(hasKw(n,k)) s+=(norm(k).length>5?2:1)}));return s};
+  // group score = product / group words (strong) + matching complaint-type words
+  TAX().groups.forEach(g=>{
+    let s=0; (g.kw||[]).forEach(k=>{if(hasKw(n,k)) s+=4});
+    (g.products||[]).forEach(p=>{if(p.name && norm(p.name).length>3 && hasKw(n,p.name)) s+=10});
+    s += kwScore(g.types);
+    if (s) res.groups.push({id:g.id,score:s});
+  });
+  res.groups.sort((a,b)=>b.score-a.score);
+  if (res.groups.length){ const top=res.groups[0].score; res.tied=res.groups.filter(g=>g.score===top).map(g=>g.id); res.clear=res.tied.length===1; }
+  const man = manualGroups();
+  const cand = man.length ? man : (res.clear ? [res.tied[0]] : []);
+  const scoreTypes=(list,gid)=>list.forEach(ty=>{let s=0;(ty.kw||[]).forEach(k=>{if(hasKw(n,k)) s+=(norm(k).length>5?2:1)}); if(s) res.types.push({key:gid+':'+ty.id,score:s})});
+  [...new Set(cand)].forEach(gid=>{const g=groupById(gid); if(g) scoreTypes(g.types||[], gid)});
+  scoreTypes(TAX().common||[], 'common');
+  res.types.sort((a,b)=>b.score-a.score);
+  return res;
+}
+let clsT, askT;
+function clearAutoTypes(){ Object.keys(S.autoTypes).forEach(k=>{ if(S.autoTypes[k]){ delete S.types[k]; delete S.autoTypes[k]; } }) }
+function runClassify(){
+  const DESC = allLangText('desc').trim();
+  const sg=$('#sugg');
+  clearTimeout(askT);
+  if (!DESC){
+    // description deleted -> remove everything that was chosen automatically
+    // reset product groups to "select" (keep it only where a product name is entered: the group belongs to that product)
+    S.items.forEach(i=>{ if(!String(i.product||'').trim()){ i.group=''; delete i.auto.group; if(i.auto.code){ i.code=''; delete i.auto.code; } } });
+    S.types={}; S.autoTypes={};
+    clearAutoTypes(); S.asked=''; sg.style.display='none';
+    renderItems(); renderTypes(); persist(); return;
+  }
+  const r = classify(DESC);
+  const man = manualGroups();
+  if (!man.length){
+    const autoIt = S.items.find(i=>i.auto.group);
+    const want = r.clear ? r.tied[0] : '';
+    if (autoIt && autoIt.group!==want){ autoIt.group=''; delete autoIt.auto.group; }
+    if (want && !S.items.some(i=>i.group)){ S.items[0].group=want; S.items[0].auto.group=1; }
+    renderItems();
+    if (r.tied.length>1){ const key=r.tied.slice().sort().join(','); if (S.asked!==key) askT=setTimeout(()=>askGroup(r.tied,key),1500); }
+  }
+  const top = r.types.filter(x=>!x.key.endsWith('cm_other')).slice(0,4).map(x=>x.key);
+  Object.keys(S.autoTypes).forEach(k=>{ if(S.autoTypes[k] && !top.includes(k)){ delete S.types[k]; delete S.autoTypes[k]; } });
+  top.forEach(k=>{ if(S.types[k]===undefined || S.autoTypes[k]){ S.types[k]=true; S.autoTypes[k]=true; } });
+  const hasGroup = S.items.some(i=>i.group);
+  if (r.groups.length || top.length){
+    sg.style.display='block';
+    sg.innerHTML = '🔎 <b>'+esc(t('suggested'))+'</b><br>' +
+      (hasGroup
+        ? S.items.filter(i=>i.group).slice(0,1).map(i=>'<span class="chip">📦 '+esc(lbl(groupById(i.group).label))+'</span>').join('')
+        : r.tied.length ? '<span class="note">'+esc(t('pickGroup'))+'</span><br>'+r.tied.slice(0,8).map(id=>'<button class="chip" style="cursor:pointer" data-pg="'+id+'">📦 '+esc(lbl(groupById(id).label))+'</button>').join('')+'<br>' : '') +
+      top.map(k=>'<span class="chip">⚠️ '+esc(typeLabel(k))+'</span>').join('');
+  } else sg.style.display='none';
+  renderTypes(); persist();
+}
+function askGroup(ids,key){
+  if (manualGroups().length || S.items.some(i=>i.group)) return;
+  if (document.querySelector('.modal.on')) return;
+  $('#gqText').textContent = '“'+trShown('desc').slice(0,160)+(trShown('desc').length>160?'…':'')+'”';
+  $('#gqBtns').innerHTML = ids.slice(0,8).map(id=>`<button class="btn" style="width:100%;justify-content:flex-start;margin-bottom:6px" data-gq="${id}">📦 ${esc(lbl(groupById(id).label))}</button>`).join('');
+  $('#mGroup').dataset.key = key;
+  $('#mGroup').classList.add('on');
+}
+function pickGroup(id){
+  const it=S.items.find(i=>!i.group)||S.items[0]; it.group=id; delete it.auto.group;
+  S.asked=$('#mGroup').dataset.key||S.asked; $('#mGroup').classList.remove('on');
+  renderItems(); runClassify();
+}
+function typeLabel(key){const i=key.indexOf(':');const gid=key.slice(0,i),tid=key.slice(i+1);const list=gid==='common'?TAX().common:((groupById(gid)||{}).types||[]);const ty=list.find(x=>x.id===tid);return ty?lbl(ty.label):key}
+
+/* ---------------- auto-translation of free text ---------------- */
+const TR_FIELDS=['desc','substrate','conditions','notes'];
+const LANG_NAME={en:'English',tr:'Türkçe',ru:'Русский'};
+let trOn = LS.get('autoTr', true);
+const trInst={}; let trBusy=0, trStT;
+function trStatus(k){const el=$('#trStatus');clearTimeout(trStT);el.textContent=k?t(k):'';if(k==='trDone')trStT=setTimeout(()=>el.textContent='',2500)}
+function detectLang(s){
+  if(/[а-яёіїєґ]/i.test(s)) return 'ru';
+  if(/[çğışöüİ]/i.test(s) || /\b(ve|bir|ile|ama|çok|cok|var|yok|degil|değil|urun|ürün)\b/i.test(s)) return 'tr';
+  if(/\b(the|and|is|are|with|not|have|has|was)\b/i.test(s)) return 'en';
+  return L==='ru' ? 'en' : L;
+}
+async function viaChrome(text,from,to){ if(!('Translator' in self))throw 0; const k=from+'>'+to;
+  if(!trInst[k]){const av=await Translator.availability({sourceLanguage:from,targetLanguage:to}); if(av!=='available')throw 0; trInst[k]=await Translator.create({sourceLanguage:from,targetLanguage:to})}
+  return await trInst[k].translate(text) }
+async function viaGoogle(text,from,to){ const r=await fetch('https://translate.googleapis.com/translate_a/single?client=gtx&dt=t&sl='+from+'&tl='+to+'&q='+encodeURIComponent(text)); if(!r.ok)throw 0; const j=await r.json(); return j[0].map(x=>x[0]).join('') }
+async function viaMyMemory(text,from,to){ const parts=text.match(/[\s\S]{1,480}(?=\s|$)|[\s\S]{1,480}/g)||[text]; const out=[];
+  for(const p of parts){const r=await fetch('https://api.mymemory.translated.net/get?langpair='+from+'|'+to+'&q='+encodeURIComponent(p)); const j=await r.json(); if(!j.responseData)throw 0; out.push(j.responseData.translatedText)}
+  return out.join(' ') }
+const withTimeout=(p,ms)=>Promise.race([p,new Promise((_,rej)=>setTimeout(()=>rej(0),ms))]);
+async function txText(text,from,to){ for(const fn of [viaChrome,viaGoogle,viaMyMemory]){ try{const r=await withTimeout(fn(text,from,to),fn===viaChrome?4000:9000); if(r&&r.trim()) return r}catch(e){} } throw 0 }
+function trShown(f){ const x=S.tx[f]; if(!x||!x.src) return S[f]||''; return (L===x.src)? x[x.src] : (x[L] ?? x[x.src]) }
+async function translateField(f){
+  const x=S.tx[f]; if(!trOn||!x||!x.src) return; const src=x.src, text=x[src]; if(!text||!text.trim()) return;
+  const targets=(CFG.languages||['en','tr','ru']).filter(l=>l!==src && x[l]===undefined);
+  if(!targets.length) return;
+  trBusy++; trStatus('translating'); let fail=false;
+  for(const to of targets){ try{ const r=await txText(text,src,to); if(S.tx[f]===x && x[src]===text){ x[to]=r; if(to===L) refreshField(f) } }catch(e){ fail=true } }
+  trBusy--; if(!trBusy) trStatus(fail?'trFail':'trDone');
+  persist(); if(f==='desc') runClassify();
+}
+function refreshField(f){ const el=$('#'+f); if(document.activeElement!==el) el.value=trShown(f); trNote(f) }
+function trNote(f){
+  const box=$(`[data-trn="${f}"]`); if(!box) return; const x=S.tx[f];
+  if(!x||!x.src||x.src===L||!x[x.src]){box.innerHTML='';return}
+  if(x[L]===undefined){box.innerHTML=trOn?'🌐 '+esc(t('translating')):'';return}
+  const open=box.dataset.open==='1';
+  box.innerHTML=`🌐 ${esc(t('trFrom'))} ${esc(LANG_NAME[x.src]||x.src)}<a data-tog="${f}">${esc(t(open?'hideOrig':'showOrig'))}</a>${open?`<span class="orig">${esc(x[x.src])}</span>`:''}`;
+}
+let trT={};
+function onFreeText(f,val){
+  S[f]=val;
+  if(!val.trim()){ delete S.tx[f]; trNote(f); return }
+  const x=S.tx[f];
+  // keep the same source language if the user keeps editing in that language
+  const src = (x && x.src===L) ? L : detectLang(val);
+  S.tx[f]={src,[src]:val}; trNote(f);
+  clearTimeout(trT[f]); trT[f]=setTimeout(()=>translateField(f),1200);
+}
+function allLangText(f){ const x=S.tx[f]; return x? Object.entries(x).filter(([k])=>k!=='src').map(([,v])=>v).join(' \n ') : (S[f]||'') }
+
+/* ---------------- problem packages (pack sizes × units) ---------------- */
+const PACKS = Object.assign({
+  paint:['0.75 L','1 L','2.5 L','7.5 L','10 L','15 L','20 kg'], decorative:['1 L','2.5 L','5 kg','15 kg','25 kg'],
+  tile_adhesive:['5 kg','20 kg','25 kg'], grout:['1 kg','2.5 kg','5 kg','20 kg'], waterproofing:['5 kg','10 kg','20 kg','25 kg','2K set'],
+  repair:['5 kg','25 kg','30 kg'], floor:['2K set','5 kg','10 kg','20 kg','25 kg'], etics:['25 kg','m²','pcs'],
+  sealant:['280 ml','290 ml','310 ml','600 ml','750 ml'], additive:['1 L','5 L','20 kg']}, CFG.packs||{});
+const kindOf = g => g ? (g.kind || (/paint|boya|краск/i.test(g.label.en+g.label.tr)?'paint':/plaster|sıva|siva|decor/i.test(g.label.en+g.label.tr)?'decorative':'')) : '';
+const showBase = it => ['paint','decorative'].includes(kindOf(groupById(it.group)));
+const unitsTotal = it => it.rows.reduce((a,r)=>a+(parseFloat(String(r.units).replace(',','.'))||0),0);
+function packBlock(it,i){
+  const g=groupById(it.group), base=showBase(it), sizes=PACKS[kindOf(g)]||[...new Set(Object.values(PACKS).flat())];
+  return `<div class="pk"><div class="pkh">📦 ${esc(t('pkTitle'))} <span class="note">— ${esc(t(base?'pkHintPaint':'pkHint'))}</span></div>
+  <table class="pkt"><tr><th>${esc(t('pkSize'))}</th>${base?`<th>${esc(t('pkBase'))}</th>`:''}<th style="width:30%">${esc(t('pkUnits'))}</th><th></th></tr>
+  ${it.rows.map((r,j)=>`<tr><td><input data-rk="size" data-ri="${j}" list="pk${i}" value="${esc(r.size)}" class="${j===0&&it.auto.size?'auto':''}" placeholder="2.5 L"></td>${base?`<td><input data-rk="base" data-ri="${j}" value="${esc(r.base)}" placeholder="${esc(t('pkBasePh'))}"></td>`:''}<td><input data-rk="units" data-ri="${j}" type="number" min="0" step="1" value="${esc(r.units)}" placeholder="0"></td><td>${it.rows.length>1?`<button class="del" data-rmrow="${j}" title="${esc(t('remove'))}">✕</button>`:''}</td></tr>`).join('')}
+  </table><datalist id="pk${i}">${sizes.map(x=>`<option value="${esc(x)}">`).join('')}</datalist>
+  <div class="pkf"><button class="btn sm" data-addrow="1">＋ ${esc(t('pkAdd'))}</button><label><input type="checkbox" data-whole="1" ${it.whole?'checked':''}> ${esc(t('pkWhole'))}</label><span class="pktotal">${esc(t('pkTotal'))}: <span data-total>${unitsTotal(it)}</span></span></div></div>`;
+}
+
+/* ---------------- render ---------------- */
+function applyBrand(){
+  const b=CFG.brand||{}, c=b.color||'#1f4e79';
+  document.documentElement.style.setProperty('--pri', c);
+  document.documentElement.style.setProperty('--pri-l', c+'22');
+  $('#hLogo').src = b.logo||''; $('#hLogo').style.display = b.logo?'':'none';
+  $('#hSub').innerHTML = [b.name?'<b>'+esc(b.name)+'</b>':'', esc(b.web), esc(b.email), esc(b.phone)].filter(Boolean).join(' · ');
+  document.title = t('title') + (b.name?' — '+b.name:'');
+  $('#btnSettings').style.display = CFG.allowCustomize?'':'none';
+}
+function renderStatic(){
+  document.documentElement.lang=L;
+  $$('[data-i]').forEach(e=>e.textContent=t(e.dataset.i));
+  $$('[data-i-ph]').forEach(e=>e.placeholder=t(e.dataset.iPh));
+  $('#langs').innerHTML=(CFG.languages||['en','tr','ru']).map(l=>`<button class="${l===L?'on':''}" data-l="${l}">${l.toUpperCase()}</button>`).join('');
+  $('#observed').innerHTML=t('obs').map((o,i)=>`<option value="${i}">${esc(o)}</option>`).join('');
+  $('#urgency').innerHTML=t('urg').map((o,i)=>`<option value="${i}">${esc(o)}</option>`).join('');
+  $('#requests').innerHTML=t('req').map((o,i)=>`<label><input type="checkbox" value="${i}" ${S.requests.includes(i)?'checked':''}> ${esc(o)}</label>`).join('');
+  $('#foot').textContent=t('footer');
+  applyBrand();
+}
+function renderCompany(){
+  $$('[data-co]').forEach(e=>{e.value=company[e.dataset.co]||''; e.disabled=!coEditing});
+  $('#lockBar').style.display = coEditing?'none':'flex';
+  $('#btnSaveCo').style.display = coEditing?'':'none';
+  $('#cNo').textContent = complaintNo();
+}
+function productOptions(gid){
+  const g=groupById(gid); const ps=g?(g.products||[]):allProducts();
+  return ps.map(p=>`<option value="${esc(p.name)}">${esc(p.code||'')}</option>`).join('');
+}
+function renderItems(){
+  $('#items').innerHTML = S.items.map((it,i)=>{
+    const a=k=>it.auto[k]?' auto':'';
+    return `<div class="item" data-ix="${i}">
+    <h3><span>📦 ${esc(t('item'))} ${i+1}</span>${S.items.length>1?`<button class="btn sm" data-rm="${i}">✕ ${esc(t('remove'))}</button>`:''}</h3>
+    <div class="grid">
+      <label class="f req"><span>${esc(t('group'))}</span><select data-k="group" class="${a('group')}"><option value="">${esc(t('choose'))}</option>${TAX().groups.map(g=>`<option value="${g.id}" ${g.id===it.group?'selected':''}>${esc(lbl(g.label))}</option>`).join('')}</select></label>
+      <label class="f req"><span>${esc(t('product'))}</span><input data-k="product" list="pl${i}" value="${esc(it.product)}" class="${a('product')}" autocomplete="off"><datalist id="pl${i}">${productOptions(it.group)}</datalist></label>
+      <label class="f"><span>${esc(t('code'))}</span><input data-k="code" value="${esc(it.code)}" class="${a('code')}"></label>
+      <label class="f req"><span>${esc(t('batch'))}</span><input data-k="batch" value="${esc(it.batch)}" class="${a('batch')}"></label>
+      <label class="f"><span>${esc(t('prodDate'))}</span><input type="date" data-k="prod" value="${esc(it.prod)}" class="${a('prod')}"></label>
+      <label class="f"><span>${esc(t('expDate'))}</span><input type="date" data-k="exp" value="${esc(it.exp)}" class="${a('exp')}"></label>
+      <label class="f"><span>${esc(t('invoice'))}</span><input data-k="invoice" value="${esc(it.invoice)}"></label>
+      <label class="f"><span>${esc(t('delivery'))}</span><input type="date" data-k="delivery" value="${esc(it.delivery)}"></label>
+    </div>
+    ${packBlock(it,i)}
+    <div class="ocrbox"><div class="row"><label class="btn sm pri">📷 ${esc(t('labelBtn'))}<input type="file" accept="image/*" data-ocr="${i}" hidden></label><span class="note" data-ocrmsg="${i}">${esc(t('labelPhoto'))}</span></div>
+    ${it.ocrText?`<details><summary>${esc(t('rawText'))}</summary><pre>${esc(it.ocrText)}</pre></details>`:''}</div>
+  </div>`}).join('');
+}
+function renderTypes(){
+  const gids=[...new Set(S.items.map(i=>i.group).filter(Boolean))];
+  const fs=(title,list,gid)=>`<fieldset class="types"><legend>${esc(title)}</legend><div class="tgrid">${list.map(ty=>{const k=gid+':'+ty.id, au=S.types[k]&&S.autoTypes[k];return `<label class="${au?'isauto':''}"><input type="checkbox" data-t="${k}" ${S.types[k]?'checked':''}><span>${esc(lbl(ty.label))}${au?`<span class="tag">${esc(t('auto'))}</span>`:''}</span></label>`}).join('')}</div></fieldset>`;
+  $('#types').innerHTML = gids.map(g=>{const G=groupById(g);return G?fs(lbl(G.label),G.types||[],g):''}).join('') + fs(t('common'),TAX().common||[],'common');
+}
+function renderPhotos(){
+  $('#photos').innerHTML=S.photos.map((p,i)=>`<div class="ph"><img src="${p.src}"><button data-prm="${i}">✕</button><input data-pcap="${i}" value="${esc(p.cap||'')}" placeholder="${esc(t('caption'))}"></div>`).join('');
+  $('#phCount').textContent=`(${S.photos.length}/10)`;
+}
+function renderMisc(){
+  ['appDate','area','applicator','claimValue','signer','signerPos'].forEach(id=>$('#'+id).value=S[id]||'');
+  TR_FIELDS.forEach(f=>{ $('#'+f).value=trShown(f); trNote(f); if(trOn && S.tx[f] && S.tx[f].src && S.tx[f][L]===undefined) translateField(f) });
+  $('#trOn').checked=trOn;
+  $('#observed').value=S.observed; $('#urgency').value=S.urgency; $('#cDate').textContent=S.date.split('-').reverse().join('.');
+}
+function renderAll(){renderStatic();renderCompany();renderItems();renderTypes();renderPhotos();renderMisc();if(S.desc)runClassify();else $('#sugg').style.display='none'}
+
+/* ---------------- events ---------------- */
+document.addEventListener('click',e=>{
+  const l=e.target.closest('[data-l]'); if(l){L=l.dataset.l;LS.set('lang',L);renderAll();return}
+  const rm=e.target.closest('[data-rm]'); if(rm){const gone=S.items.splice(+rm.dataset.rm,1)[0]; S.photos=S.photos.filter(p=>p.itemId!==gone.id); renderItems();renderTypes();renderPhotos();persist();return}
+  const ar=e.target.closest('[data-addrow]'); if(ar){const ix=+ar.closest('.item').dataset.ix; S.items[ix].rows.push(blankRow()); renderItems(); const ins=$$(`.item[data-ix="${ix}"] [data-rk="size"]`); ins[ins.length-1].focus(); persist(); return}
+  const rr=e.target.closest('[data-rmrow]'); if(rr){const ix=+rr.closest('.item').dataset.ix; S.items[ix].rows.splice(+rr.dataset.rmrow,1); renderItems(); persist(); return}
+  const pg=e.target.closest('[data-pg],[data-gq]'); if(pg){pickGroup(pg.dataset.pg||pg.dataset.gq); return}
+  if(e.target.closest('#gqSkip')){S.asked=$('#mGroup').dataset.key;$('#mGroup').classList.remove('on');persist();return}
+  const tg=e.target.closest('[data-tog]'); if(tg){const box=tg.closest('.trnote');box.dataset.open=box.dataset.open==='1'?'0':'1';trNote(tg.dataset.tog);e.preventDefault();return}
+  const prm=e.target.closest('[data-prm]'); if(prm){removePhoto(+prm.dataset.prm);return}
+  if(e.target.closest('[data-close]')) e.target.closest('.modal').classList.remove('on');
+});
+$('#btnAddItem').onclick=()=>{S.items.push(blankItem());renderItems();persist()};
+$('#btnEditCo').onclick=()=>{coEditing=true;renderCompany()};
+$('#btnSaveCo').onclick=()=>{
+  if(!company.company||!company.contact){markCo();toast(t('required'));return}
+  CO=Object.assign({},company);LS.set('company',CO);coEditing=false;renderCompany();persist();toast(t('companySaved'))};
+document.addEventListener('input',e=>{
+  const el=e.target;
+  if(el.dataset.co){company[el.dataset.co]=el.value;el.classList.remove('err');$('#cNo').textContent=complaintNo();persist();return}
+  const item=el.closest('.item');
+  if(item && el.dataset.k && el.dataset.k!=='group'){
+    const ix=+item.dataset.ix, it=S.items[ix]; it[el.dataset.k]=el.value; delete it.auto[el.dataset.k]; el.classList.remove('auto','err');
+    if(el.dataset.k==='product'){
+      const p=allProducts().find(x=>x.n===norm(el.value).trim());
+      if(p){ let ch=false; if(!it.code){it.code=p.code;it.auto.code=1;ch=true} if(!it.group){it.group=p.g;it.auto.group=1;ch=true}
+        if(ch){ renderItems(); renderTypes(); const ni=$(`.item[data-ix="${ix}"] [data-k="product"]`); if(ni){ni.focus();ni.setSelectionRange(ni.value.length,ni.value.length)} if(S.desc) runClassify(); } }
+    }
+    persist();return}
+  if(item && el.dataset.rk){const it=S.items[+item.dataset.ix]; it.rows[+el.dataset.ri][el.dataset.rk]=el.value; if(el.dataset.rk==='size'&&+el.dataset.ri===0){delete it.auto.size;el.classList.remove('auto')} item.querySelector('[data-total]').textContent=unitsTotal(it); persist(); return}
+  if(el.dataset.pcap!==undefined){S.photos[+el.dataset.pcap].cap=el.value;persist();return}
+  if(TR_FIELDS.includes(el.id)){onFreeText(el.id,el.value);el.classList.remove('err');if(el.id==='desc'){clearTimeout(clsT);clsT=setTimeout(runClassify,350)}else persist();return}
+  if(['appDate','area','applicator','claimValue','signer','signerPos'].includes(el.id)){S[el.id]=el.value;el.classList.remove('err');persist()}
+});
+document.addEventListener('change',e=>{
+  const el=e.target;
+  if(el.closest('.item') && el.dataset.k==='group'){const it=S.items[+el.closest('.item').dataset.ix];it.group=el.value;delete it.auto.group;if(!el.value)S.asked='';renderItems();renderTypes();if(S.desc)runClassify();persist();return}
+  if(el.dataset.whole){S.items[+el.closest('.item').dataset.ix].whole=el.checked;persist();return}
+  if(el.dataset.t){S.types[el.dataset.t]=el.checked;S.autoTypes[el.dataset.t]=false;renderTypes();persist();return}
+  if(el.closest('#requests')){S.requests=$$('#requests input:checked').map(x=>+x.value);persist();return}
+  if(el.id==='observed'||el.id==='urgency'){S[el.id]=+el.value;persist();return}
+  if(el.id==='trOn'){trOn=el.checked;LS.set('autoTr',trOn);TR_FIELDS.forEach(f=>{trNote(f);if(trOn)translateField(f)});return}
+  if(el.id==='phIn'){addPhotos([...el.files]);el.value='';return}
+  if(el.dataset.ocr!==undefined){const f=el.files[0];el.value='';if(f) readLabel(+el.dataset.ocr,f);return}
+  if(el.id==='mailTo'){$('#mailOtherWrap').style.display=el.value==='__other'?'':'none'}
+});
+
+/* ---------------- photos ---------------- */
+function compress(file,max=1400,q=.8){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>{const img=new Image();img.onload=()=>{const s=Math.min(1,max/Math.max(img.width,img.height));const c=document.createElement('canvas');c.width=Math.round(img.width*s);c.height=Math.round(img.height*s);const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);x.drawImage(img,0,0,c.width,c.height);res({src:c.toDataURL('image/jpeg',q),canvas:c})};img.onerror=rej;img.src=r.result};r.onerror=rej;r.readAsDataURL(file)})}
+function removePhoto(i){
+  const p=S.photos.splice(i,1)[0];
+  if(p && p.label){
+    const it=S.items.find(x=>x.id===p.itemId);
+    if(it){
+      for(const f of ['group','product','code','batch','prod','exp']) if(it.auto[f]){ it[f]=''; delete it.auto[f]; }
+      if(it.auto.size){ it.rows[0].size=''; delete it.auto.size; }
+      it.ocrText='';
+      renderItems(); renderTypes(); if(S.desc) runClassify();
+      $(`[data-ocrmsg="${S.items.indexOf(it)}"]`).textContent=t('labelRemoved');
+    }
+  }
+  renderPhotos(); persist();
+}
+async function addPhotos(files){
+  for(const f of files){ if(S.photos.length>=10){toast(t('maxPhotos'));break} const {src}=await compress(f); S.photos.push({src,cap:''}); }
+  renderPhotos();persist();
+}
+
+/* ---------------- label OCR ---------------- */
+const OCR_DEF = {
+  batch:['(?:lot|batch|parti|seri|charge|ch\\.?\\s*-?b|партия|серия)\\s*(?:no|n°|nr|№|#)?\\s*[:.\\-]?\\s*([A-Z0-9][A-Z0-9\\-\\/\\.]{3,})'],
+  code:['(?<![\\p{L}])(?:kodu|kod|code|артикул|код)(?![\\p{L}])[\\s.:#\\-]*(?:no|n°|№)?[\\s.:#\\-]*((?=[A-Z0-9\\-]*\\d)[A-Z0-9][A-Z0-9\\-]{2,})'],
+  prodLbl:'(prod|pro\\.?\\s?date|mfg|manuf|uret|urt|imal|p\\.?\\s?d\\b|изг|произв)',
+  expLbl:'(exp|skt|son kul|best before|use by|bbe|годен|срок)'
+};
+function toISO(d,m,y){y=+y;if(y<100)y+=2000;d=+d;m=+m;if(m>12&&d<=12)[d,m]=[m,d];if(m<1||m>12||d<1||d>31||y<2000||y>2100)return '';return `${y}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`}
+function parseLabel(raw){
+  const out={}; const txt=raw.replace(/[|]/g,'I'); const n=norm(txt); const O=Object.assign({},OCR_DEF,CFG.ocr||{});
+  for(const p of O.batch){const m=txt.match(new RegExp(p,'iu')); if(m){out.batch=m[1].replace(/[.\-\/]+$/,'');break}}
+  const dates=[]; const re=/(\d{1,2})\s?[.\/\-]\s?(\d{1,2})\s?[.\/\-]\s?(\d{2,4})|(\d{4})[.\/\-](\d{1,2})[.\/\-](\d{1,2})/g; let m;
+  while((m=re.exec(n))){const iso=m[1]?toISO(m[1],m[2],m[3]):toISO(m[6],m[5],m[4]); if(iso) dates.push({iso,ctx:n.slice(Math.max(0,m.index-28),m.index)})}
+  const pr=new RegExp(O.prodLbl,'i'), er=new RegExp(O.expLbl,'i');
+  dates.forEach(d=>{ if(er.test(d.ctx)&&!out.exp) out.exp=d.iso; else if(pr.test(d.ctx)&&!out.prod) out.prod=d.iso; });
+  const rest=dates.map(d=>d.iso).filter(x=>x!==out.prod&&x!==out.exp).sort();
+  if(!out.prod&&rest.length) out.prod=rest.shift();
+  if(!out.exp&&rest.length) out.exp=rest.pop();
+  if(out.prod&&out.exp&&out.prod>out.exp)[out.prod,out.exp]=[out.exp,out.prod];
+  const prods=allProducts().filter(p=>p.n.length>=4).sort((a,b)=>b.n.length-a.n.length);
+  // 1) product code printed next to "Kodu / Code" (most reliable)
+  for(const p of (O.code||[])){const m=txt.match(new RegExp(p,'iu')); if(m){out.code=m[1].replace(/[.\-]+$/,'');break}}
+  if(out.code){ const byCode=allProducts().filter(p=>p.code && (out.code===p.code || out.code.startsWith(p.code))).sort((a,b)=>b.code.length-a.code.length)[0];
+    if(byCode){out.product=byCode.name;out.group=byCode.g} }
+  // 2) product name on the label
+  if(!out.product){ const nj=n.replace(/[^a-z0-9а-я]/g,''); const hit=prods.find(p=>hasKw(' '+n,p.n)) || prods.filter(p=>p.n.replace(/[^a-z0-9а-я]/g,'').length>=8).find(p=>nj.includes(p.n.replace(/[^a-z0-9а-я]/g,''))); if(hit){out.product=hit.name;out.group=hit.g;if(hit.code&&!out.code)out.code=hit.code} }
+  if(!out.code){const codes=new Set(prods.filter(p=>p.code).map(p=>p.code)); const c=(n.match(/\b\d{4}\b/g)||[]).find(x=>codes.has(x)); if(c){out.code=c;const p=prods.find(x=>x.code===c);if(p&&!out.product){out.product=p.name;out.group=p.g}}}
+  const pk=txt.match(/(\d+(?:[.,]\d+)?)\s?(kg|lt|l|ml|gr|g)\b/i); if(pk) out.pack=pk[1]+' '+(/^l/i.test(pk[2])?'L':pk[2].toLowerCase());
+  return out;
+}
+// prepare the photo for reading: grayscale only (strong contrast cuts thin digits) and enlarged,
+// because label text is usually small in a phone photo
+function ocrCanvas(img, targetW){
+  const s=Math.min(3, targetW/img.width); const c=document.createElement('canvas');
+  c.width=Math.round(img.width*s); c.height=Math.round(img.height*s);
+  const x=c.getContext('2d'); x.imageSmoothingQuality='high'; x.filter='grayscale(1)'; x.drawImage(img,0,0,c.width,c.height); return c;
+}
+function loadImg(file){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>{const i=new Image();i.onload=()=>res(i);i.onerror=rej;i.src=r.result};r.onerror=rej;r.readAsDataURL(file)})}
+// pick the best value from several reading passes: a pure number (for codes / order numbers) and the longest one wins
+function bestOf(vals){ vals=vals.filter(Boolean); if(!vals.length) return ''; const num=vals.filter(v=>/^\d+$/.test(v)); const pool=num.length?num:vals; return pool.sort((a,b)=>b.length-a.length)[0]; }
+async function readLabel(ix,file){
+  const msg=()=>$(`[data-ocrmsg="${ix}"]`);
+  const itemId=S.items[ix].id;
+  S.photos=S.photos.filter(p=>!(p.label&&p.itemId===itemId)); // one label photo per product
+  if(S.photos.length<10){S.photos.push({src:(await compress(file)).src,cap:'Label — '+t('item')+' '+(ix+1),label:true,itemId});renderPhotos();persist()}
+  try{
+    msg().textContent=t('reading');
+    await loadScript('https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js');
+    const img=await loadImg(file);
+    const passes=[2400,3200]; let pass=0; const results=[]; const raws=[];
+    const worker=await Tesseract.createWorker('eng',1,{logger:m=>{if(m.status==='recognizing text'&&msg())msg().textContent=t('reading')+Math.round(((pass+m.progress)/passes.length)*100)+'%'}});
+    for(const w of passes){
+      const r=await worker.recognize(ocrCanvas(img,w)); raws.push(r.data.text||''); results.push(parseLabel(r.data.text||''));
+      const p=results[results.length-1]; if(p.batch&&p.code&&/^\d+$/.test(p.batch)&&p.prod) break;   // good enough, skip second pass
+      pass++;
+    }
+    await worker.terminate();
+    const p={}; for(const f of ['code','batch']) p[f]=bestOf(results.map(r=>r[f]));
+    for(const f of ['group','product','prod','exp','pack']) p[f]=(results.find(r=>r[f])||{})[f]||'';
+    if(p.code){ const byCode=allProducts().filter(x=>x.code&&(p.code===x.code||p.code.startsWith(x.code))).sort((a,b)=>b.code.length-a.code.length)[0]; if(byCode){p.product=byCode.name;p.group=byCode.g} }
+    const it=S.items.find(x=>x.id===itemId); if(!it) return; it.ocrText=raws[0].trim();
+    let k=0; for(const f of ['group','product','code','batch','prod','exp']){ if(p[f] && !it[f]){it[f]=p[f];it.auto[f]=1;k++} }
+    if(p.pack && !it.rows[0].size){it.rows[0].size=p.pack;it.auto.size=1;k++}
+    renderItems(); renderTypes(); persist(); if(S.desc) runClassify();
+    msg().textContent = k? t('ocrDone') : t('ocrNone');
+  }catch(err){ console.warn(err); if(msg()) msg().textContent=t('ocrFail'); }
+}
+
+/* ---------------- validation ---------------- */
+function markCo(){const bad=[];['company','contact','email','phone'].forEach(k=>{const el=$(`[data-co="${k}"]`); if(!String(company[k]||'').trim()){el.classList.add('err');bad.push(el)}});return bad}
+function markReq(){
+  const bad=markCo();
+  S.items.forEach((it,i)=>['group','product','batch'].forEach(k=>{if(!it[k]){const el=$(`.item[data-ix="${i}"] [data-k="${k}"]`);el.classList.add('err');bad.push(el)}}));
+  if(!S.desc.trim()){$('#desc').classList.add('err');bad.push($('#desc'))}
+  if(!S.signer.trim()){$('#signer').classList.add('err');bad.push($('#signer'))}
+  if(bad.length){bad[0].scrollIntoView({behavior:'smooth',block:'center'});toast(t('required'))}
+  return !bad.length;
+}
+
+/* ---------------- report / PDF ---------------- */
+function pkRows(it){
+  const rows=it.rows.filter(r=>r.size||r.units||r.base); if(!rows.length&&!it.whole) return '';
+  const base=showBase(it);
+  return `<tr><th>${esc(t('pkTitle'))}</th><td>${rows.length?`<table style="width:100%"><tr><th style="width:auto">${esc(t('pkSize'))}</th>${base?`<th style="width:auto">${esc(t('pkBase'))}</th>`:''}<th style="width:auto">${esc(t('pkUnits'))}</th></tr>${rows.map(r=>`<tr><td>${esc(r.size)}</td>${base?`<td>${esc(r.base)}</td>`:''}<td>${esc(r.units)}</td></tr>`).join('')}<tr><td colspan="${base?2:1}"><b>${esc(t('pkTotal'))}</b></td><td><b>${unitsTotal(it)}</b></td></tr></table>`:''}${it.whole?`<div style="margin-top:4px">☑ ${esc(t('pkWhole'))}</div>`:''}</td></tr>`;
+}
+function buildReport(){
+  const b=CFG.brand||{}; const row=(k,v)=>v?`<tr><th>${esc(t(k))}</th><td>${esc(v)}</td></tr>`:'';
+  const fmt=d=>d?d.split('-').reverse().join('.'):'';
+  const typesSel=Object.keys(S.types).filter(k=>S.types[k]).map(typeLabel);
+  const orig=f=>{const x=S.tx[f]; return (x&&x.src&&x.src!==L&&x[L]!==undefined)?`<div style="margin-top:5px;padding-top:4px;border-top:1px dashed #cfd5df;color:#555;font-size:11px"><b>${esc(t('original'))} (${esc(LANG_NAME[x.src]||x.src)}):</b> ${esc(x[x.src])}</div>`:''};
+  const trow=(k,f)=>trShown(f)?`<tr><th>${esc(t(k))}</th><td style="white-space:pre-wrap">${esc(trShown(f))}${orig(f)}</td></tr>`:'';
+  return `<div class="rp">
+  <div class="rh"><div>${b.logo?`<img src="${b.logo}">`:''}<div style="font-size:10.5px;color:#555;margin-top:3px">${esc([b.name,b.web,b.email,b.phone].filter(Boolean).join(' · '))}</div></div>
+  <div style="text-align:right"><h1>${esc(t('title'))}</h1><div>${esc(t('complaintNo'))}: <b>${esc(complaintNo())}</b></div><div>${esc(t('date'))}: <b>${fmt(S.date)}</b></div></div></div>
+  <div class="sec avoid"><h2>1. ${esc(t('s1'))}</h2><table>${row('company',company.company)}${row('contact',company.contact)}${row('position',company.position)}${row('email',company.email)}${row('phone',company.phone)}${row('web',company.web)}${row('country',company.country)}${row('address',company.address)}</table></div>
+  ${S.items.map((it,i)=>`${i===0?`<div class="sec avoid"><h2>2. ${esc(t('s2'))}</h2>`:''}<table class="${i?'avoid':''}" style="margin-bottom:6px"><tr><th colspan="2" style="background:#dde5ef">${esc(t('item'))} ${i+1}</th></tr>${row('group',lbl((groupById(it.group)||{}).label))}${row('product',it.product)}${row('code',it.code)}${row('batch',it.batch)}${row('prodDate',fmt(it.prod))}${row('expDate',fmt(it.exp))}${pkRows(it)}${row('invoice',it.invoice)}${row('delivery',fmt(it.delivery))}</table>${i===0?'</div>':''}`).join('')}
+  <div class="sec avoid"><h2>3. ${esc(t('s3'))}</h2><table>${trow('describe','desc')}${typesSel.length?`<tr><th>${esc(t('types3'))}</th><td>${typesSel.map(x=>'• '+esc(x)).join('<br>')}</td></tr>`:''}${S.observed?row('whenObserved',t('obs')[S.observed]):''}${row('appDate',fmt(S.appDate))}${trow('substrate','substrate')}${trow('conditions','conditions')}${row('area',S.area)}${row('applicator',S.applicator)}</table></div>
+  <div class="sec avoid"><h2>4. ${esc(t('s5'))}</h2><table>${S.requests.length?`<tr><th>${esc(t('s5'))}</th><td>${S.requests.map(i=>'☑ '+esc(t('req')[i])).join('<br>')}</td></tr>`:''}${row('urgency',t('urg')[S.urgency])}${row('claimValue',S.claimValue)}${trow('notes','notes')}</table></div>
+  <div class="sec avoid"><h2>5. ${esc(t('s6'))}</h2><table><tr><td colspan="2">${esc(t('declText'))}</td></tr>${row('signer',S.signer)}${row('signerPos',S.signerPos)}</table></div>
+  ${S.photos.length?`${S.photos.reduce((rows,p,i)=>{if(i%2===0)rows.push([]);rows[rows.length-1].push([p,i]);return rows},[]).map((r,ri)=>`${ri===0?`<div class="avoid"><h2>6. ${esc(t('s4'))} (${S.photos.length})</h2>`:''}<div class="prow ${ri?'avoid':''}">${r.map(([p,i])=>`<div class="pcell"><img src="${p.src}"><div>${i+1}. ${esc(p.cap||'')}</div></div>`).join('')}${r.length<2?'<div class="pcell" style="border:0"></div>':''}</div>${ri===0?'</div>':''}`).join('')}`:''}
+  </div>`;
+}
+const fileName=()=>`${complaintNo()}_${norm(company.company).replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,30)||'complaint'}.pdf`;
+async function makePdf(){
+  await loadScript('https://cdn.jsdelivr.net/npm/html2pdf.js@0.10.1/dist/html2pdf.bundle.min.js');
+  // html2canvas only "sees" content that is on screen and not scrolled away, so the report is placed
+  // at the top-left of the window for the moment of capture, hidden behind a "Creating PDF…" cover.
+  const cover=document.createElement('div'); cover.className='pdfcover'; cover.textContent='📄 '+t('pdfMaking'); document.body.appendChild(cover);
+  const el=$('#report'); el.innerHTML=buildReport(); el.classList.add('rendering');
+  const sx=window.scrollX, sy=window.scrollY; window.scrollTo(0,0);
+  await new Promise(r=>setTimeout(r,60));
+  await Promise.all([...el.querySelectorAll('img')].map(i=>i.complete?0:new Promise(r=>{i.onload=i.onerror=r})));
+  try{
+    return await html2pdf().set({margin:[8,8,10,8],image:{type:'jpeg',quality:.92},
+      html2canvas:{scale:2,useCORS:true,scrollX:0,scrollY:0,backgroundColor:'#ffffff'},
+      jsPDF:{unit:'mm',format:'a4',orientation:'portrait'},pagebreak:{mode:['css','legacy'],avoid:'.avoid'}}).from(el.firstElementChild).outputPdf('blob');
+  } finally { el.classList.remove('rendering'); el.innerHTML=''; cover.remove(); window.scrollTo(sx,sy); }
+}
+function saveHtml(){
+  const data={id:complaintNo(),S,company:Object.assign({},company),lang:L};
+  if(CFG.allowCustomize){ data.brand=CFG.brand; data.recipients=CFG.recipients; data.prefix=CFG.prefix; data.taxonomy=CFG.taxonomy; }
+  const json=JSON.stringify(data).replace(/</g,'\\u003c');
+  const html=SRC_HTML.replace('<script id="cfg"','<script id="preload" type="application/json">'+json+'</scr'+'ipt>\n<script id="cfg"');
+  download(new Blob([html],{type:'text/html'}), fileName().replace(/\.pdf$/,'.html'));
+  toast(t('htmlOk'),4500);
+}
+function download(blob,name){const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1500)}
+$('#btnHtml').onclick=()=>saveHtml();
+$('#btnPdf').onclick=async()=>{ if(!markReq())return; try{download(await makePdf(),fileName());toast(t('pdfOk'))}catch(e){console.warn(e);toast(t('pdfFail'),5000)} };
+$('#btnMail').onclick=()=>{ if(!markReq())return;
+  const r=CFG.recipients||[]; $('#mailTo').innerHTML=r.map(x=>`<option value="${esc(x.email)}">${esc(x.label?x.label+' — '+x.email:x.email)}</option>`).join('')+`<option value="__other">${esc(t('other'))}</option>`;
+  $('#mailOtherWrap').style.display=r.length?'none':''; if(!r.length) $('#mailTo').value='__other';
+  $('#mMail').classList.add('on'); };
+$('#mailGo').onclick=async()=>{
+  let to=$('#mailTo').value; if(to==='__other') to=$('#mailOther').value.trim();
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(to)){$('#mailOther').classList.add('err');$('#mailOtherWrap').style.display='';return}
+  $('#mMail').classList.remove('on');
+  let blob; try{blob=await makePdf()}catch(e){toast(t('pdfFail'),5000);return}
+  const name=fileName(), subj=`${t('title')} ${complaintNo()} — ${company.company}`;
+  const typesSel=Object.keys(S.types).filter(k=>S.types[k]).map(typeLabel);
+  const body=[`${t('complaintNo')}: ${complaintNo()}`,`${t('company')}: ${company.company}`,`${t('contact')}: ${company.contact} (${company.phone}, ${company.email})`,'',
+    ...S.items.map((it,i)=>`${t('item')} ${i+1}: ${it.product}${it.code?' ['+it.code+']':''} · ${t('batch')}: ${it.batch}${it.prod?' · '+t('prodDate')+': '+it.prod:''}`+(it.rows.some(r=>r.size||r.units)?'\n   '+it.rows.filter(r=>r.size||r.units).map(r=>`${r.units||'?'} × ${r.size}${r.base?' ('+r.base+')':''}`).join(', ')+` = ${unitsTotal(it)}`:'')+(it.whole?' · '+t('pkWhole'):'')),'',
+    typesSel.map(x=>'• '+x).join('\n'),'',trShown('desc').slice(0,900),
+    (S.tx.desc&&S.tx.desc.src&&S.tx.desc.src!==L)?`\n${t('original')} (${LANG_NAME[S.tx.desc.src]}): ${S.tx.desc[S.tx.desc.src].slice(0,600)}`:'','',`📎 ${name}`].join('\n');
+  const file=new File([blob],name,{type:'application/pdf'});
+  if(navigator.canShare && navigator.canShare({files:[file]}) && /Android|iPhone|iPad|Mobile/i.test(navigator.userAgent)){
+    try{await navigator.share({files:[file],title:subj,text:`To: ${to}\n\n`+body});return}catch(e){}
+  }
+  download(blob,name);
+  setTimeout(()=>{location.href=`mailto:${encodeURIComponent(to)}?subject=${encodeURIComponent(subj)}&body=${encodeURIComponent(body+'\n\n('+t('attachNote')+')')}`},700);
+  toast('📎 '+t('attachNote')+': '+name,7000);
+};
+$('#btnNew').onclick=()=>{ if(!confirm(t('newConfirm')))return; S=blank(); if(CO){company=Object.assign({},CO);coEditing=false} LS.set('draft',S); renderAll(); window.scrollTo({top:0,behavior:'smooth'}) };
+
+/* ---------------- white-label settings ---------------- */
+$('#btnSettings').onclick=()=>{const b=CFG.brand||{};$('#sName').value=b.name||'';$('#sWeb').value=b.web||'';$('#sEmail').value=b.email||'';$('#sPhone').value=b.phone||'';$('#sColor').value=b.color||'#1f4e79';$('#sPrefix').value=CFG.prefix||'PCF';$('#sRecip').value=(CFG.recipients||[]).map(r=>(r.label?r.label+' | ':'')+r.email).join('\n');$('#mSet').classList.add('on')};
+let newLogo=null;
+$('#sLogo').onchange=async e=>{const f=e.target.files[0];if(!f)return; newLogo = f.type==='image/png'||f.type==='image/svg+xml' ? await new Promise(r=>{const fr=new FileReader();fr.onload=()=>r(fr.result);fr.readAsDataURL(f)}) : (await compress(f,600,.9)).src};
+$('#sSave').onclick=()=>{
+  const brand={name:$('#sName').value.trim(),web:$('#sWeb').value.trim(),email:$('#sEmail').value.trim(),phone:$('#sPhone').value.trim(),color:$('#sColor').value,logo:newLogo||CFG.brand.logo};
+  const recipients=$('#sRecip').value.split('\n').map(l=>l.trim()).filter(Boolean).map(l=>{const p=l.split('|').map(x=>x.trim());return p.length>1?{label:p[0],email:p[1]}:{label:'',email:p[0]}});
+  Object.assign(CFG.brand,brand);CFG.recipients=recipients;CFG.prefix=$('#sPrefix').value.trim()||'PCF';
+  if(!LS.set('brand',{brand,recipients,prefix:CFG.prefix})) toast('Logo file is too large — please use a smaller image');
+  $('#mSet').classList.remove('on');renderAll();
+};
+$('#sReset').onclick=()=>{LS.del('brand');CFG.brand=JSON.parse(JSON.stringify(CFG0.brand));CFG.recipients=CFG0.recipients;CFG.prefix=CFG0.prefix;newLogo=null;$('#mSet').classList.remove('on');renderAll()};
+$('#sTaxReset').onclick=()=>{LS.del('taxonomy');CFG.taxonomy=JSON.parse(JSON.stringify(CFG0.taxonomy));renderAll();toast(t('taxOk'))};
+const XLSX_SRC='https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js';
+$('#sTpl').onclick=async()=>{
+  await loadScript(XLSX_SRC); const tax=TAX();
+  const rows=[['Product group (EN)','Product group (TR)','Product group (RU)','Group keywords','Complaint type (EN)','Complaint type (TR)','Complaint type (RU)','Type keywords']];
+  (tax.common||[]).forEach(ty=>rows.push(['ALL','','','',ty.label.en||'',ty.label.tr||'',ty.label.ru||'',(ty.kw||[]).join(', ')]));
+  tax.groups.forEach(g=>(g.types||[]).forEach((ty,i)=>rows.push([g.label.en||'',i?'':g.label.tr||'',i?'':g.label.ru||'',i?'':(g.kw||[]).join(', '),ty.label.en||'',ty.label.tr||'',ty.label.ru||'',(ty.kw||[]).join(', ')])));
+  const prow=[['Product group (EN)','Product code','Product name']]; tax.groups.forEach(g=>(g.products||[]).forEach(p=>prow.push([g.label.en,p.code||'',p.name])));
+  const help=[['How to use this template'],['Sheet "ComplaintTypes": one row per complaint type. Write the product group name (English) in column A on every row.'],['Write ALL in column A for types that apply to every group (delivery, packaging, etc.).'],['Keywords: comma-separated words in any language. When a customer writes one of them in the description, that type is selected automatically.'],['Sheet "Products" (optional): product names and codes, used for suggestions and for matching label photos.'],['Save, then upload it in the form: Customize → Upload Excel / CSV.']];
+  const wb=XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet(rows),'ComplaintTypes'); XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet(prow),'Products'); XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet(help),'Instructions');
+  XLSX.writeFile(wb,'complaint-types-template.xlsx');
+};
+$('#sImp').onchange=async e=>{
+  const f=e.target.files[0]; e.target.value=''; if(!f) return;
+  try{
+    await loadScript(XLSX_SRC); const wb=XLSX.read(await f.arrayBuffer());
+    const sh=wb.Sheets['ComplaintTypes']||wb.Sheets[wb.SheetNames[0]];
+    const rows=XLSX.utils.sheet_to_json(sh,{header:1,defval:''}).slice(1).filter(r=>String(r[0]).trim()&&String(r[4]).trim());
+    const split=s=>String(s||'').split(/[,;]/).map(x=>x.trim()).filter(Boolean);
+    const tax={common:[],groups:[]}; const gmap={};
+    rows.forEach((r,i)=>{const ty={id:'t'+i,label:{en:String(r[4]),tr:String(r[5]||r[4]),ru:String(r[6]||r[4])},kw:split(r[7])};
+      const key=String(r[0]).trim();
+      if(key.toUpperCase()==='ALL'){tax.common.push(ty);return}
+      let g=gmap[key]; if(!g){g=gmap[key]={id:'g'+Object.keys(gmap).length,label:{en:key,tr:String(r[1]||key),ru:String(r[2]||key)},kw:[key,...split(r[3])],types:[],products:[]};tax.groups.push(g)}
+      else{ if(r[1]) g.label.tr=String(r[1]); if(r[2]) g.label.ru=String(r[2]); g.kw.push(...split(r[3])) }
+      g.types.push(ty)});
+    const ps=wb.Sheets['Products']; if(ps) XLSX.utils.sheet_to_json(ps,{header:1,defval:''}).slice(1).forEach(r=>{const g=gmap[String(r[0]).trim()]; if(g&&String(r[2]).trim()) g.products.push({code:String(r[1]||''),name:String(r[2]).trim()})});
+    if(!tax.groups.length) throw new Error('empty');
+    if(!tax.common.length) tax.common=JSON.parse(JSON.stringify(CFG0.taxonomy.common));
+    CFG.taxonomy=tax; LS.set('taxonomy',tax); S.items.forEach(i=>{i.group='';i.auto={}}); S.types={}; S.autoTypes={}; renderAll(); toast(t('taxOk'));
+  }catch(err){console.warn(err);toast(t('taxBad'),4000)}
+};
+
+renderAll();
+</script>
+</body>
+</html>

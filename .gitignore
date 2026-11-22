@@ -1,0 +1,9 @@
+# Private — never pushed to GitHub
+config/*.config.json
+!config/example.config.json
+template/
+dist/
+private/
+*.xlsx
+*.docx
+.env

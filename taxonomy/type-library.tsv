@@ -1,0 +1,103 @@
+# Complaint type library. Format:  id | English | Türkçe | Русский | keywords (comma separated, any language)
+# "## name" starts a type set. Sets are assigned to product groups in the groups JSON. "common" applies to every group.
+## common
+cm_pkg | Damaged / torn / leaking packaging | Hasarlı / yırtık / akan ambalaj | Повреждённая / протекающая упаковка | torn,damaged pack,broken pail,broken bucket,leak,yirtik,hasarli ambalaj,patlak,akmis,sizinti,kova kirik,kirik kova,поврежд,порван,протек,разорван,треснул ведро
+cm_label | Wrong / missing / damaged label | Hatalı / eksik / hasarlı etiket | Неправильная / отсутствующая этикетка | label,sticker,no batch,etiket,этикет,наклейк
+cm_wrong | Wrong product delivered | Yanlış ürün gönderildi | Поставлен не тот товар | wrong product,different product,yanlis urun,farkli urun,baska urun,не тот товар,другой товар,перепут
+cm_qty | Missing quantity / short delivery | Eksik miktar / eksik teslimat | Недостача при поставке | missing,short delivery,less than ordered,eksik,az geldi,eksik geldi,недостач,не хватает,недопостав
+cm_weight | Net weight / volume below declared | Net ağırlık / hacim eksik | Вес / объём меньше заявленного | underweight,net weight,less weight,volume,kilo eksik,agirlik,hacim eksik,недовес,вес меньше,объем меньше
+cm_expired | Expired / short shelf life | Raf ömrü geçmiş / kısa | Истёк / короткий срок годности | expired,shelf life,expiry,skt,son kullanma,raf omru,tarihi gecmis,срок годн,просроч
+cm_hard | Hardened / lumps / caked in package | Ambalajda sertleşme / topaklanma | Затвердевание / комки в упаковке | hardened,lump,caked,solid in bag,stone,sertles,topak,taslas,kesek,katilas,затверд,комк,окамен,слежал
+cm_frost | Frost damage in transport / storage | Taşıma / depolamada donma | Замерзание при перевозке / хранении | frozen,frost,freeze,dondu,donma,donmus,замерз,мороз
+cm_smell | Unusual odour / fermentation / gas | Kötü koku / fermantasyon / gaz | Неприятный запах / брожение | smell,odor,odour,stink,rotten,ferment,koku,kokuyor,curu,fermant,gaz yapmis,запах,воня,брожен,тухл
+cm_other | Other (describe in text) | Diğer (açıklamada belirtin) | Другое (опишите в тексте) | other,diger,другое
+## tile_adhesive
+ta_bond | Poor bonding / tiles detached / hollow sound | Zayıf yapışma / karo düşmesi / boş ses | Плохая адгезия / отслоение плитки / пустоты | detach,fell,fall off,debond,loose tile,not stick,adhesion,hollow,dusme,dustu,dusuyor,kopma,yapismiyor,yapisma,bos ses,kalkti,отслоен,отпал,отвал,не держит,адгез,пустот,отходит
+ta_open | Short open time / skin forms quickly | Kısa açık bekleme süresi / kabuk bağlama | Короткое открытое время / корка | open time,skin,dries fast,dries quickly,acik bekleme,kabuk,cabuk kuruyor,открытое время,корк,быстро сохнет
+ta_slip | Tiles slipping / sagging on wall | Duvarda karo kayması | Сползание плитки со стены | slip,slide,sag,kayma,kayiyor,сполз,скольз
+ta_work | Poor workability / mixing / consistency | Kötü işlenebilirlik / karışım / kıvam | Плохая удобоукладываемость / консистенция | workability,sticky,heavy,hard to spread,mixing,consistency,islenebilir,karisim,kivam,agir,yayilmiyor,удобоуклад,консистенц,тяжело,размешив
+ta_set | Slow setting / not hardening | Geç priz alma / sertleşmeme | Медленное схватывание / не твердеет | not set,slow set,not harden,still soft,priz,sertlesmedi,sertlesmiyor,kurumadi,yumusak,не схватыв,медленно схват,не тверде,мягк
+ta_crack | Cracking / shrinkage of adhesive | Yapıştırıcıda çatlama / rötre | Трещины / усадка клея | crack,shrink,catla,rotre,трещ,усадк
+ta_stain | Staining / shading through tiles | Karoda lekelenme / renk geçişi | Пятна / просвечивание через плитку | stain,shadow,dark spot,show through,leke,golge,renk gecis,пятн,просвеч
+ta_weak | Weak / dusty / powdery adhesive | Tozuma / dağılma / düşük mukavemet | Пыление / низкая прочность клея | powder,dusty,weak,crumble,tozuyor,tozuma,dagiliyor,ufalan,mukavemet,пылит,крош,слаб,прочност
+## grout
+gr_colour | Colour variation / shading / blotching | Renk farkı / alacalanma | Разнотон / пятнистость | colour,color,shade,blotch,different colour,lighter,darker,renk,reng,ton,alaca,acik renk,koyu,farkli renk,цвет,оттен,разнотон,пятнист
+gr_crack | Cracking / shrinking / sinking in joints | Derzde çatlama / çökme | Трещины / проседание в швах | crack,shrink,sink,catla,cokme,cokuyor,трещ,усадк,проседа
+gr_powder | Powdering / dusting / erosion | Tozuma / aşınma / dökülme | Пыление / осыпание / вымывание | powder,dusting,sandy,erode,wash out,tozuma,asinma,kumlan,dokuluyor,пыл,осып,вымыва
+gr_efflor | Efflorescence / white deposits | Çiçeklenme / beyaz leke | Высолы / белый налёт | efflorescence,white deposit,salt,ciceklen,beyaz leke,beyazlama,tuzlan,высол,белый налет
+gr_stain | Staining / dirt pickup / mould | Lekelenme / kirlenme / küf | Загрязнение / плесень | stain,dirt,mould,mold,black,leke,kirlen,kuf,kararma,грязь,загрязн,плесен,черне
+gr_clean | Hard to clean off tiles / haze | Karo yüzeyinden temizlenmiyor / film | Трудно отмыть / налёт на плитке | hard to clean,haze,film,residue,temizlenmiyor,film tabaka,kalinti,отмыв,налет,пленк
+gr_epoxy | Epoxy grout not curing / sticky | Epoksi derz kürlenmiyor / yapışkan | Эпоксидная затирка не отверждается | epoxy,sticky,tacky,epoksi,yapiskan,kurlen,эпокс,липк
+## waterproofing
+wp_leak | Water leakage / damp after application | Su kaçağı / nem | Протечка / сырость | leak,kacag,water passing,damp,wet,seep,kacak,su geciyor,su aliyor,sizinti,nem,islak,rutubet,протеч,протек,сыро,влаг,мокр
+wp_peel | Delamination / peeling from substrate | Yüzeyden ayrılma / soyulma | Отслоение от основания | peel,delaminat,detach,debond,soyul,kalkiyor,ayril,отслаив,отслоен,отход
+wp_blister | Blistering / bubbles / pinholes | Kabarma / kabarcık / iğne deliği | Пузыри / вздутия / проколы | blister,bubble,pinhole,kabar,kabarcik,igne delig,пузыр,вздут
+wp_crack | Cracking / loss of elasticity | Çatlama / elastikiyet kaybı | Трещины / потеря эластичности | crack,elastic,brittle,catla,elastik,kirilgan,трещ,эластич,хрупк
+wp_cure | Not curing / remains sticky | Kürlenmiyor / yapışkan kalıyor | Не отверждается / липнет | not cure,not curing,sticky,tacky,not dry,kurlenm,kurumuyor,yapiskan,не высых,не отвер,липн
+wp_uv | UV / weather degradation, chalking | UV / hava etkisiyle bozulma, tebeşirlenme | Разрушение от УФ / погоды | uv,sunlight,weather,chalk,fade,gunes,tebesir,solma,уф,солнц,мелен,выгор
+wp_mix | Mixing / consistency problem | Karışım / kıvam sorunu | Проблема смешивания / консистенции | mix,consistency,too thick,too thin,karisim,kivam,koyu,sulu,смеш,консист,густ,жидк
+wp_tile | Tile adhesive not bonding over membrane | Membran üzerine yapıştırıcı tutmuyor | Плитка не держится на гидроизоляции | tile over,adhesive over,over membrane,uzerine seramik,membran uzeri,плитка на гидро
+## paint
+pt_colour | Colour deviation / batch-to-batch shade difference | Renk sapması / parti arası ton farkı | Отклонение цвета / разнотон между партиями | colour,color,unmatch,mismatch,not match,does not match,doesnt match,different shade,uyusmuyor,uymuyor,eslesmiyor,несовпад,не совпад,отлича,shade,tone,colour match,color match,deviation,renk,reng,ton farki,renk tutmuyor,rengi tutmuyor,ton tutmuyor,farkli renk,sapma,цвет,оттен,разнотон,не совпада
+pt_cover | Poor hiding power / coverage | Düşük örtücülük | Плохая укрывистость | hiding,coverage,opacity,see through,ortucu,ortmuyor,alti gorunuyor,укрыв,просвеч
+pt_visc | Viscosity / consistency problem (too thin / thick) | Viskozite / kıvam sorunu (sulu / koyu) | Вязкость / консистенция | viscos,too thin,too thick,watery,runny,settling,viskozite,kivam,sulu,koyu,cokme,вязк,жидк,густ,расслое
+pt_peel | Peeling / flaking / poor adhesion | Soyulma / pul pul dökülme / zayıf yapışma | Отслаивание / шелушение / плохая адгезия | peel,flake,adhesion,coming off,soyul,dokul,pul pul,yapismiyor,отслаив,шелуш,адгез
+pt_blister | Blistering / bubbling | Kabarma / kabarcık | Пузыри / вздутие | blister,bubble,kabar,kabarcik,пузыр,вздут
+pt_crack | Cracking / crazing | Çatlama / kılcal çatlak | Трещины / растрескивание | crack,craz,catla,kilcal,трещ
+pt_chalk | Chalking / powdering / fading | Tebeşirlenme / tozuma / solma | Меление / выгорание | chalk,powdering,fade,faded,tebesir,tozuma,solma,soldu,мел,выгор,блекн
+pt_dry | Slow drying / tackiness | Geç kuruma / yapışkanlık | Медленное высыхание / липкость | slow dry,not drying,tacky,sticky,gec kuru,kurumuyor,yapiskan,высых,липк
+pt_finish | Gloss / sheen difference, roller or lap marks | Parlaklık farkı / rulo izi / ek yeri | Неравномерный блеск / следы валика | gloss,sheen,matt,shiny,roller mark,lap mark,flashing,parlak,mat yuzey,mat gorun,rulo izi,ek yeri,блеск,следы валика,полос
+pt_stain | Stains / bleeding / yellowing | Leke / renk atma / sararma | Пятна / пожелтение | stain,bleed,yellow,spot,leke,sarar,sararma,пятн,желт
+pt_mould | Mould / algae growth | Küf / yosun | Плесень / водоросли | mould,mold,algae,fungus,kuf,yosun,mantar,плесен,грибок,водоросл
+pt_wash | Poor washability / scrub resistance | Düşük silinebilirlik | Плохая стойкость к мытью | washab,scrub,wipe,silinm,yikanm,silince,мыть,моющ
+pt_efflor | Efflorescence / alkali burn | Çiçeklenme / alkali yanığı | Высолы / щелочные пятна | efflor,salt,alkali,ciceklen,tuzlan,высол,щелоч
+pt_tint | Tinting problem (tinter not mixing / wrong colour) | Renklendirme sorunu | Проблема колеровки | tint,tinter,colorant,pigment,base,renklendir,baz,колер,пигмент,база
+## decorative
+dc_colour | Colour deviation / shade difference | Renk sapması / ton farkı | Отклонение цвета / разнотон | colour,color,shade,tone,match,green,renk,reng,ton,farkli renk,yesil,sapma,цвет,оттен,тон,разнотон,зелен
+dc_effect | Decorative effect not achieved (texture, metallic, pearl) | Dekoratif efekt oluşmuyor (doku, metalik, sedef) | Не получается эффект (фактура, металлик, перламутр) | effect,texture,pattern,metallic,pearl,efekt,desen,doku,sedef,metalik,эффект,фактур,перламут,металлик
+dc_grain | Grain / aggregate distribution problem | Tane dağılımı sorunu | Неравномерное зерно / наполнитель | grain,aggregate,granule,tane,agrega,зерн,гранул,наполнит
+dc_crack | Cracking | Çatlama | Трещины | crack,catla,трещ
+dc_peel | Peeling / poor adhesion | Soyulma / zayıf yapışma | Отслаивание / плохая адгезия | peel,adhesion,flake,soyul,yapismiyor,dokul,отслаив,адгез
+dc_work | Workability / application problem | Uygulama / işlenebilirlik sorunu | Проблема нанесения | workab,apply,trowel,drag,uygulan,mala,surulmuyor,нанес,шпател,тянется
+dc_dry | Slow drying / curing | Geç kuruma | Медленное высыхание | slow dry,not dry,kurumuyor,gec kuru,высых
+dc_visc | Consistency / separation in pail | Kıvam / kovada ayrışma | Консистенция / расслоение | viscos,consistency,separat,thin,thick,kivam,ayris,sulu,koyu,консист,расслое,густ,жидк
+dc_stain | Stains / dirt pickup / water marks | Leke / kirlenme / su izi | Пятна / загрязнение / следы воды | stain,dirt,water mark,leke,kirlen,su izi,пятн,грязн,следы воды
+## repair
+rm_strength | Low strength / dusting / crumbling | Düşük mukavemet / tozuma / dağılma | Низкая прочность / пыление / крошение | strength,weak,dust,crumble,mukavemet,zayif,tozuma,dagil,прочност,слаб,пыл,крош
+rm_crack | Cracking / shrinkage | Çatlama / rötre | Трещины / усадка | crack,shrink,catla,rotre,трещ,усадк
+rm_bond | Delamination / poor bond to substrate | Yüzeyden ayrılma / zayıf aderans | Отслоение / плохое сцепление | delaminat,detach,debond,bond,hollow,ayril,aderans,kabuk,bos ses,отслоен,сцеплен,пустот
+rm_set | Setting time problem (too fast / too slow) | Priz süresi sorunu (çok hızlı / yavaş) | Время схватывания (слишком быстро / медленно) | setting,sets too fast,too slow,priz,cabuk donuyor,gec donuyor,схватыв
+rm_level | Poor flow / levelling | Yayılma / tesviye sorunu | Плохое растекание / выравнивание | flow,level,self level,yayil,tesviye,akis,растек,самонивел
+rm_surface | Surface defects (pinholes, roughness, colour) | Yüzey kusurları (delik, pürüz, renk) | Дефекты поверхности (раковины, шероховатость) | surface,pinhole,rough,yuzey,puruz,delik,поверхн,раковин,шерох
+rm_work | Workability / mixing problem | İşlenebilirlik / karışım sorunu | Удобоукладываемость / смешивание | workab,mixing,consistency,islenebil,karisim,kivam,удобоуклад,смеш,консист
+## floor
+fl_cure | Not curing / soft / tacky | Kürlenmiyor / yumuşak / yapışkan | Не отверждается / мягкий / липкий | not cur,soft,tacky,sticky,kurlenm,yumusak,yapiskan,не отвер,мягк,липк
+fl_blush | Amine blush / white haze / greasy film | Amin terlemesi / beyaz film / bulanıklık | Аминный налёт / белёсость | blush,haze,white film,greasy,cloudy,milky,terle,beyaz film,bulanik,yagli,аминн,налет,мутн,белес
+fl_bubble | Bubbles / pinholes / craters (fish eyes) | Kabarcık / iğne deliği / krater | Пузыри / кратеры («рыбий глаз») | bubble,pinhole,crater,fish eye,kabarcik,igne delig,krater,balik gozu,пузыр,кратер,рыбий глаз
+fl_peel | Delamination / peeling | Ayrılma / soyulma | Отслоение | delaminat,peel,detach,ayril,soyul,kalkma,отслоен,отслаив
+fl_colour | Colour difference / yellowing | Renk farkı / sararma | Разнотон / пожелтение | colour,color,yellow,shade,renk,reng,sarar,ton,цвет,желт,оттен
+fl_wear | Poor abrasion / chemical resistance | Düşük aşınma / kimyasal dayanımı | Низкая стойкость к истиранию / химии | wear,abrasion,scratch,chemical,tyre mark,tire mark,asinma,cizil,kimyasal,lastik izi,истира,царап,хими
+fl_level | Uneven surface / poor levelling | Düzgün olmayan yüzey / tesviye sorunu | Неровная поверхность | uneven,level,wavy,duzgun degil,dalgali,tesviye,неровн,волн
+fl_gloss | Gloss variation / matt patches | Parlaklık farkı / mat bölgeler | Неравномерный блеск / матовые пятна | gloss,matt patch,shiny,parlak,mat bolge,блеск,матов
+fl_inject | Injection / crack sealing not effective | Enjeksiyon / çatlak dolgu etkisiz | Инъектирование неэффективно | inject,enjeksiyon,инъек
+## etics
+et_crack | Render cracking (joints, corners, anchors) | Sıva çatlakları (birleşim, köşe, dübel) | Трещины штукатурки (стыки, углы, дюбели) | crack,render crack,catla,siva catla,трещ
+et_detach | Board / render detachment | Levha / sıva ayrılması | Отслоение плит / штукатурки | detach,board fell,loose board,levha dus,plaka dus,ayril,отслоен,отпал плит
+et_dowel | Dowel / board joint marks visible | Dübel / levha birleşim izleri görünüyor | Видны дюбели / стыки плит | dowel,anchor,joint mark,dubel,ek yeri,ek izi,дюбел,стык
+et_adh | Adhesive not bonding board to wall | Yapıştırıcı levhayı tutmuyor | Клей не держит плиту | adhesive not bond,glue,yapistirici tutmuyor,levha tutmuyor,клей не держ
+et_mesh | Mesh showing / embedding problem | File görünüyor / gömme sorunu | Сетка просвечивает | mesh,file gorun,сетк
+et_finish | Finish render colour / texture defect | Son kat sıva renk / doku kusuru | Дефект финишного слоя (цвет / фактура) | finish,texture,colour,color,son kat,doku,renk,reng,финиш,фактур,цвет
+et_board | Board quality (size, density, shrinkage) | Levha kalitesi (ölçü, yoğunluk, çekme) | Качество плит (размер, плотность) | board,density,dimension,eps,stone wool,levha,yogunluk,olcu,плит,плотн,размер
+## sealant
+sl_adh | Poor adhesion / detaching from joint | Zayıf yapışma / derzden ayrılma | Плохая адгезия / отрыв от шва | adhesion,detach,not stick,peel,yapismiyor,ayril,kopuyor,адгез,отрыв,не держит
+sl_cure | Not curing / remains soft or sticky | Kürlenmiyor / yumuşak kalıyor | Не отверждается / остаётся липким | not cur,soft,sticky,tacky,kurlenm,yumusak,yapiskan,не отвер,мягк,липк
+sl_colour | Discolouration / yellowing | Renk değişimi / sararma | Изменение цвета / пожелтение | discolor,discolour,yellow,renk degis,sarar,желт,цвет
+sl_mould | Mould growth | Küf oluşumu | Плесень | mould,mold,black spot,kuf,плесен
+sl_bubble | Bubbles / voids in bead | Kabarcık / boşluk | Пузыри / пустоты | bubble,void,kabarcik,bosluk,пузыр,пустот
+sl_crack | Cracking / shrinkage | Çatlama / büzülme | Трещины / усадка | crack,shrink,catla,buzul,трещ,усадк
+sl_extrude | Hard to extrude / cartridge problem | Kartuştan çıkmıyor / kartuş sorunu | Трудно выдавливается / картридж | extrude,cartridge,gun,kartus,tabanca,cikmiyor,картридж,выдав
+sl_foam | Foam expansion / collapse problem | Köpük genleşme / çökme sorunu | Проблема расширения / усадки пены | foam,expan,collaps,kopuk,genles,cokme,пена,расшир
+## additive
+ad_perf | Expected performance not achieved | Beklenen performans alınmadı | Не достигается заявленный эффект | performance,no effect,not work,performans,etki yok,ise yaramiyor,эффект,не работает
+ad_mix | Separation / coagulation | Ayrışma / pıhtılaşma | Расслоение / коагуляция | separat,coagul,curdle,ayris,pihti,расслое,коагул,сверну
+ad_set | Affects setting time / strength | Priz süresini / mukavemeti etkiliyor | Влияет на схватывание / прочность | setting,strength,priz,mukavemet,схватыв,прочност

@@ -1,0 +1,12 @@
+[
+ {"id":"paint","set":"paint","label":{"en":"Paints & Primers","tr":"Boyalar ve Astarlar","ru":"Краски и грунтовки"},"kw":["paint","primer","emulsion","boya","astar","краск","грунт"]},
+ {"id":"deco","set":"decorative","label":{"en":"Decorative Plasters & Finishes","tr":"Dekoratif Sıvalar ve Efektler","ru":"Декоративные штукатурки"},"kw":["decorative","plaster","stucco","dekoratif","siva","декор","штукатур"]},
+ {"id":"tile","set":"tile_adhesive","label":{"en":"Tile Adhesives","tr":"Seramik Yapıştırıcıları","ru":"Плиточные клеи"},"kw":["tile adhesive","tile","ceramic","seramik","yapistirici","karo","плиточн","плитк","клей"]},
+ {"id":"grout","set":"grout","label":{"en":"Grouts","tr":"Derz Dolgular","ru":"Затирки для швов"},"kw":["grout","joint filler","derz","fuga","затирк","шов","швы"]},
+ {"id":"wp","set":"waterproofing","label":{"en":"Waterproofing","tr":"Su Yalıtımı","ru":"Гидроизоляция"},"kw":["waterproof","membrane","insulation against water","su yalitim","izolasyon","membran","гидроизол","мембран"]},
+ {"id":"repair","set":"repair","label":{"en":"Repair Mortars & Screeds","tr":"Tamir Harçları ve Şaplar","ru":"Ремонтные смеси и стяжки"},"kw":["repair mortar","screed","mortar","tamir harc","sap","harc","ремонтн","стяжк","раствор"]},
+ {"id":"floor","set":"floor","label":{"en":"Floor Coatings (Epoxy / PU)","tr":"Zemin Kaplamaları (Epoksi / PU)","ru":"Наливные полы (эпоксид / ПУ)"},"kw":["epoxy","polyurethane","floor coating","epoksi","poliuretan","zemin","эпокс","полиурет","пол"]},
+ {"id":"etics","set":"etics","label":{"en":"Thermal Insulation (ETICS)","tr":"Isı Yalıtımı (Mantolama)","ru":"Теплоизоляция (СФТК)"},"kw":["thermal insulation","etics","eps","stone wool","mantolama","isi yalitim","теплоизол","утепл","пенопласт"]},
+ {"id":"seal","set":"sealant","label":{"en":"Sealants & Foams","tr":"Mastikler ve Köpükler","ru":"Герметики и пены"},"kw":["sealant","silicone","mastic","foam","mastik","silikon","kopuk","герметик","силикон","пена"]},
+ {"id":"add","set":"additive","label":{"en":"Additives","tr":"Katkılar","ru":"Добавки"},"kw":["additive","latex","admixture","katki","lateks","добавк","латекс"]}
+]

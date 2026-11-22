@@ -1,0 +1,20 @@
+{
+  "key": "pcf-demo",
+  "brand": {
+    "name": "Your Company",
+    "web": "www.yourcompany.com",
+    "email": "quality@yourcompany.com",
+    "phone": "+00 000 000 00 00",
+    "color": "#1f4e79",
+    "logo": "assets/logo-placeholder.svg"
+  },
+  "prefix": "PCF",
+  "languages": ["en", "tr", "ru"],
+  "defaultLang": "en",
+  "recipients": [
+    {"label": "Quality Department", "email": "quality@yourcompany.com"}
+  ],
+  "allowCustomize": true,
+  "groups": "taxonomy/default.groups.json",
+  "output": "docs/index.html"
+}
