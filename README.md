@@ -18,10 +18,18 @@ It is **one HTML file**: no server, no installation, works on phone and desktop.
 - **⚙ Customize**: your company name, logo, colour, e-mail recipients, complaint number prefix
 - **Your own product groups & complaint types**: download the Excel template, edit it, upload it
 
-## Brand it for your company
-**Without coding:** open the form → ⚙ Customize → set your name, logo and recipients, and upload your Excel list.
+## Make it your company's form (no coding)
+1. Open the **[live demo](https://corpsebride999.github.io/complaint-form/)**.
+2. Click **⚙️ Customize for my company**, in the yellow box at the top or the **⚙️ Customize** button in the bottom bar.
+3. Enter your **company name, website, e-mail, phone, brand colour, complaint number prefix** and upload your **logo**.
+4. Under **E-mail recipients**, add one line per address: `Quality Dept | quality@yourcompany.com`.
+5. *(Optional)* **Your own product groups & complaint types:** click **⬇️ Excel template**, edit it (one row per complaint type; keywords in any language; your products on the second sheet), then **⬆️ Upload Excel / CSV**.
+6. Click **⬇️ Download my form**. You get **one HTML file** with your branding and lists built in, and without the Customize options.
+7. **Send that file to your customers** by e-mail or messenger. They open it in any browser, on phone or desktop. Nothing to install.
 
-**As a ready file to send customers (Python 3):**
+Your settings are saved in your browser, so you can come back, change something and download the form again.
+
+## For developers: build from a config file (Python 3)
 ```bash
 cp config/example.config.json config/mycompany.config.json   # edit brand, recipients, "allowCustomize": false, "output"
 python build.py config/mycompany.config.json                  # → one self-contained HTML file
