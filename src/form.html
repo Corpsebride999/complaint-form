@@ -413,7 +413,7 @@ function typeLabel(key){const i=key.indexOf(':');const gid=key.slice(0,i),tid=ke
 const TR_FIELDS=['desc','substrate','conditions','notes'];
 const LANG_NAME={en:'English',tr:'Türkçe',ru:'Русский'};
 let trOn = LS.get('autoTr', true);
-const trInst={}; let trBusy=0, trStT;
+const trInst={}, trRetry={}; let trBusy=0, trStT;
 function trStatus(k){const el=$('#trStatus');clearTimeout(trStT);el.textContent=k?t(k):'';if(k==='trDone')trStT=setTimeout(()=>el.textContent='',2500)}
 function detectLang(s){
   if(/[а-яёіїєґ]/i.test(s)) return 'ru';
@@ -437,7 +437,10 @@ async function translateField(f){
   if(!targets.length) return;
   trBusy++; trStatus('translating'); let fail=false;
   for(const to of targets){ try{ const r=await txText(text,src,to); if(S.tx[f]===x && x[src]===text){ x[to]=r; if(to===L) refreshField(f) } }catch(e){ fail=true } }
-  trBusy--; if(!trBusy) trStatus(fail?'trFail':'trDone');
+  trBusy--;
+  // one automatic retry a few seconds later (translation services sometimes miss a single request)
+  if(fail && !trRetry[f]){ trRetry[f]=1; if(!trBusy) trStatus('translating'); setTimeout(()=>translateField(f),3500); }
+  else { if(!fail) delete trRetry[f]; if(!trBusy) trStatus(fail?'trFail':'trDone'); }
   persist(); if(f==='desc') runClassify();
 }
 function refreshField(f){ const el=$('#'+f); if(document.activeElement!==el) el.value=trShown(f); trNote(f) }
@@ -455,7 +458,7 @@ function onFreeText(f,val){
   const x=S.tx[f];
   // keep the same source language if the user keeps editing in that language
   const src = (x && x.src===L) ? L : detectLang(val);
-  S.tx[f]={src,[src]:val}; trNote(f);
+  S.tx[f]={src,[src]:val}; delete trRetry[f]; trNote(f);
   clearTimeout(trT[f]); trT[f]=setTimeout(()=>translateField(f),1200);
 }
 function allLangText(f){ const x=S.tx[f]; return x? Object.entries(x).filter(([k])=>k!=='src').map(([,v])=>v).join(' \n ') : (S[f]||'') }
